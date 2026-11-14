@@ -1,0 +1,4385 @@
+[
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261114205636-33",
+    "timestamp": "2026-11-14T20:56:36.865157",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-14T20:56:36.865157",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261114205635-32",
+    "timestamp": "2026-11-14T20:56:35.966218",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-14T20:56:35.966218",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261114205610-31",
+    "timestamp": "2026-11-14T20:56:10.668198",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-14T20:56:10.668198",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261114205210-30",
+    "timestamp": "2026-11-14T20:52:10.379039",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-14T20:52:10.379039",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112113224-29",
+    "timestamp": "2026-11-12T11:32:24.339299",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:32:24.339299",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112113220-28",
+    "timestamp": "2026-11-12T11:32:20.933687",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:32:20.933687",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112113157-27",
+    "timestamp": "2026-11-12T11:31:57.222449",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:31:57.222449",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112839-26",
+    "timestamp": "2026-11-12T11:28:39.110517",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:28:39.110517",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112753-25",
+    "timestamp": "2026-11-12T11:27:53.224526",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:27:53.224526",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112743-24",
+    "timestamp": "2026-11-12T11:27:43.952870",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:27:43.952870",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112709-23",
+    "timestamp": "2026-11-12T11:27:09.980800",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:27:09.980800",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112613-22",
+    "timestamp": "2026-11-12T11:26:13.031735",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:26:13.031735",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112526-21",
+    "timestamp": "2026-11-12T11:25:26.019379",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:25:26.019379",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112522-20",
+    "timestamp": "2026-11-12T11:25:22.933084",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:25:22.933084",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112521-19",
+    "timestamp": "2026-11-12T11:25:21.311052",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:25:21.311052",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112456-18",
+    "timestamp": "2026-11-12T11:24:56.166175",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:24:56.166175",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112112342-17",
+    "timestamp": "2026-11-12T11:23:42.808889",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:23:42.808889",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112110400-16",
+    "timestamp": "2026-11-12T11:04:00.053126",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:04:00.053126",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112110358-15",
+    "timestamp": "2026-11-12T11:03:58.730230",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:03:58.730230",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112110356-14",
+    "timestamp": "2026-11-12T11:03:56.526046",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:03:56.526046",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112110334-13",
+    "timestamp": "2026-11-12T11:03:34.188624",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.682,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T11:03:34.188624",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.682
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-BASELINE",
+        "utility_score": 81.93,
+        "executive_summary": "Recommended Strategy: **Do Nothing (Baseline)** (Utility Score: 81.9). Maintains an optimal average Health Score of **77.43 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **19.04\u00b0C**. Compared to 'Power Optimization Mode', this strategy provides +0.9 higher health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.682,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112074702-12",
+    "timestamp": "2026-11-12T07:47:02.038476",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T07:47:02.038476",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261112061833-11",
+    "timestamp": "2026-11-12T06:18:33.540427",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.745,
+      "justification": "significantly reduces risk",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-12T06:18:33.540427",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.745
+      },
+      "identified_issue": {
+        "type": "health_critical",
+        "description": "",
+        "severity": "critical",
+        "overall_risk_level": "CRITICAL"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 0.0,
+          "level": "critical",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 0.0,
+          "status": "critical",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.0,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R001",
+          "name": "Critical Health Score",
+          "severity": "CRITICAL",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R011",
+          "name": "Degraded Battery Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.745,
+        "justification": "significantly reduces risk"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: error",
+          "Risk: error"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "CRITICAL",
+      "health_score": 0.0,
+      "battery_percentage": 0.0,
+      "temperature": 0.0,
+      "risk_level": "CRITICAL"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261110055333-10",
+    "timestamp": "2026-11-10T05:53:33.843142",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.681,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-10T05:53:33.843142",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.681
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-OPT",
+        "utility_score": 81.39,
+        "executive_summary": "Recommended Strategy: **Power Optimization Mode** (Utility Score: 81.4). Maintains an optimal average Health Score of **76.5 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **21.56\u00b0C**. Compared to 'Safe Mode Recovery', this strategy provides 0.1 lower health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.681,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261110055324-9",
+    "timestamp": "2026-11-10T05:53:24.826076",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.681,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-10T05:53:24.826076",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.681
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-OPT",
+        "utility_score": 81.39,
+        "executive_summary": "Recommended Strategy: **Power Optimization Mode** (Utility Score: 81.4). Maintains an optimal average Health Score of **76.5 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **21.56\u00b0C**. Compared to 'Safe Mode Recovery', this strategy provides 0.1 lower health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.681,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": "deferred",
+    "decision_timestamp": "2026-11-10T05:53:31.202117",
+    "decision_reasoning": "Operator decision: deferred",
+    "decision_operator": "operator"
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261110055316-8",
+    "timestamp": "2026-11-10T05:53:16.522481",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.681,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-10T05:53:16.522481",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.681
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-OPT",
+        "utility_score": 81.39,
+        "executive_summary": "Recommended Strategy: **Power Optimization Mode** (Utility Score: 81.4). Maintains an optimal average Health Score of **76.5 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **21.56\u00b0C**. Compared to 'Safe Mode Recovery', this strategy provides 0.1 lower health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.681,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": "rejected",
+    "decision_timestamp": "2026-11-10T05:53:20.745096",
+    "decision_reasoning": "Operator decision: rejected",
+    "decision_operator": "operator"
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261110055314-7",
+    "timestamp": "2026-11-10T05:53:14.866898",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.681,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-10T05:53:14.866898",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.681
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-OPT",
+        "utility_score": 81.39,
+        "executive_summary": "Recommended Strategy: **Power Optimization Mode** (Utility Score: 81.4). Maintains an optimal average Health Score of **76.5 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **21.56\u00b0C**. Compared to 'Safe Mode Recovery', this strategy provides 0.1 lower health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.681,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261110055240-6",
+    "timestamp": "2026-11-10T05:52:40.834179",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.681,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-10T05:52:40.833179",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.681
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-OPT",
+        "utility_score": 81.39,
+        "executive_summary": "Recommended Strategy: **Power Optimization Mode** (Utility Score: 81.4). Maintains an optimal average Health Score of **76.5 pts** with minimum battery reserve at **72.75%** (Final: 100.0%) and peak thermal load capped at **21.56\u00b0C**. Compared to 'Safe Mode Recovery', this strategy provides 0.1 lower health-score margin and +0.0% battery reserve while keeping risk level strictly LOW.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.681,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": "accepted",
+    "decision_timestamp": "2026-11-10T05:53:11.945376",
+    "decision_reasoning": "Operator decision: accepted",
+    "decision_operator": "operator"
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261110055226-5",
+    "timestamp": "2026-11-10T05:52:26.654957",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-10T05:52:26.654957",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261106183442-4",
+    "timestamp": "2026-11-06T18:34:42.742523",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.675,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-06T18:34:42.742523",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.675
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-SHED",
+        "utility_score": 75.22,
+        "executive_summary": "Recommended Strategy: **Payload Shedding & Thermal Recovery** (Utility Score: 75.2). Maintains an optimal average Health Score of **70.43 pts** with minimum battery reserve at **74.83%** (Final: 100.0%) and peak thermal load capped at **1.56\u00b0C**.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.675,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261025201311-3",
+    "timestamp": "2026-10-25T20:13:11.241337",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.675,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-10-25T20:13:11.241337",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.675
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-SHED",
+        "utility_score": 75.22,
+        "executive_summary": "Recommended Strategy: **Payload Shedding & Thermal Recovery** (Utility Score: 75.2). Maintains an optimal average Health Score of **70.43 pts** with minimum battery reserve at **74.83%** (Final: 100.0%) and peak thermal load capped at **1.56\u00b0C**.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.675,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261025201100-2",
+    "timestamp": "2026-10-25T20:11:00.947549",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.675,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-10-25T20:11:00.947549",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.675
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-SHED",
+        "utility_score": 75.22,
+        "executive_summary": "Recommended Strategy: **Payload Shedding & Thermal Recovery** (Utility Score: 75.2). Maintains an optimal average Health Score of **70.43 pts** with minimum battery reserve at **74.83%** (Final: 100.0%) and peak thermal load capped at **1.56\u00b0C**.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.675,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261025201038-1",
+    "timestamp": "2026-10-25T20:10:38.295848",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.675,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-10-25T20:10:38.295848",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.675
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": {
+        "recommended_scenario_id": "SCN-PWR-SHED",
+        "utility_score": 75.22,
+        "executive_summary": "Recommended Strategy: **Payload Shedding & Thermal Recovery** (Utility Score: 75.2). Maintains an optimal average Health Score of **70.43 pts** with minimum battery reserve at **74.83%** (Final: 100.0%) and peak thermal load capped at **1.56\u00b0C**.",
+        "prediction_source": "digital_twin_api"
+      },
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.675,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile",
+        "Scenario predictions assume accurate orbital propagation",
+        "Scenario evaluation uses current system parameters"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": []
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api",
+          "Scenario: digital_twin_api"
+        ],
+        "prediction_source": "digital_twin_api"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261025050625-0",
+    "timestamp": "2026-10-25T05:06:25.906261",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-10-25T05:06:25.905567",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  },
+  {
+    "entry_type": "recommendation",
+    "recommendation_id": "REC-20261114205637-34",
+    "timestamp": "2026-11-14T20:56:37.350743",
+    "operator": "system",
+    "recommendation": {
+      "action_id": "ACT_INVESTIGATE",
+      "name": "Investigate Anomaly",
+      "category": "INVESTIGATE",
+      "overall_score": 0.65,
+      "justification": "standard operational procedure",
+      "trade_offs": []
+    },
+    "explanation": {
+      "explained_at": "2026-11-14T20:56:37.350743",
+      "recommendation": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "overall_score": 0.65
+      },
+      "identified_issue": {
+        "type": "Low Temperature Warning",
+        "description": "Temperature below normal range",
+        "severity": "MEDIUM",
+        "overall_risk_level": "HIGH"
+      },
+      "supporting_evidence": [
+        {
+          "metric": "health_score",
+          "value": 70.47,
+          "level": "medium_risk",
+          "source": "health_engine"
+        },
+        {
+          "metric": "battery_percentage",
+          "value": 77.355566,
+          "status": "depleted",
+          "source": "telemetry"
+        },
+        {
+          "metric": "temperature_c",
+          "value": 0.242683,
+          "status": "low",
+          "source": "telemetry"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R009",
+          "name": "Low Temperature Warning",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R012",
+          "name": "Degraded Thermal Health",
+          "severity": "MEDIUM",
+          "source": "risk_assessment_engine"
+        },
+        {
+          "metric": "risk_rule",
+          "rule_id": "R015",
+          "name": "Communication Loss",
+          "severity": "LOW",
+          "source": "risk_assessment_engine"
+        }
+      ],
+      "digital_twin_prediction": null,
+      "proposed_action": {
+        "action_id": "ACT_INVESTIGATE",
+        "name": "Investigate Anomaly",
+        "category": "INVESTIGATE",
+        "description": null,
+        "rationale": "",
+        "overall_score": 0.65,
+        "justification": "standard operational procedure"
+      },
+      "expected_benefit": {
+        "qualitative_benefits": [
+          "Provides better situational awareness",
+          "Enables informed decision-making"
+        ],
+        "quantitative_benefit": null
+      },
+      "risks_and_tradeoffs": [],
+      "assumptions": [
+        "Health Engine predictions assume similar operational conditions",
+        "Health Engine model trained on specific mission profile"
+      ],
+      "missing_information": [
+        "Live spacecraft telemetry",
+        "Scenario evaluation data for action comparison",
+        "Long-term historical trend data",
+        "Mission timeline constraints",
+        "Ground station availability"
+      ],
+      "uncertainty": {
+        "level": "MEDIUM",
+        "factors": [
+          "No scenario evaluation available"
+        ]
+      },
+      "traceability": {
+        "data_sources": [
+          "State: digital_twin_api",
+          "Risk: digital_twin_api"
+        ],
+        "prediction_source": "none"
+      }
+    },
+    "situation_snapshot": {
+      "overall_status": "MEDIUM_RISK",
+      "health_score": 70.47,
+      "battery_percentage": 77.355566,
+      "temperature": 0.242683,
+      "risk_level": "HIGH"
+    },
+    "decision": null,
+    "decision_timestamp": null,
+    "decision_reasoning": null
+  }
+]
