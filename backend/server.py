@@ -1,6 +1,7 @@
 import os
 import json
 import asyncio
+import httpx
 from fastapi import FastAPI, Query, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -13,6 +14,9 @@ from .data_manager import DataManager
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+
+# Mission Intelligence configuration
+MISSION_INTELLIGENCE_URL = os.getenv("MISSION_INTELLIGENCE_URL", "http://127.0.0.1:8001")
 
 app = FastAPI(
     title="COSMOS Digital Twin API",
@@ -204,6 +208,140 @@ async def get_models_info():
     Returns transparency details on the trained XGBoost models.
     """
     return ml_engine.get_model_info()
+
+
+# Mission Intelligence Integration Endpoints
+class MIStatePush(BaseModel):
+    """Model for pushing state to Mission Intelligence."""
+    timestamp: str
+    satellite_id: str
+    step_index: int
+    health_score: float
+    battery_percentage: float
+    temperature: float
+    battery_voltage: float
+    payload_status: str
+    sunlit: bool
+
+
+@app.post("/api/mi/push-state")
+async def push_state_to_mi(state: MIStatePush):
+    """
+    Push current state to Mission Intelligence and trigger assessment.
+    Mission Intelligence will analyze the state and return recommendations.
+    """
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.post(
+                f"{MISSION_INTELLIGENCE_URL}/webhook/digital-twin/state",
+                json=state.dict()
+            )
+            response.raise_for_status()
+            return response.json()
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "message": "Failed to push state to Mission Intelligence"
+        }
+
+
+@app.post("/api/mi/trigger-assessment")
+async def trigger_mi_assessment(
+    row_index: int = Query(0, description="Current row index"),
+    horizon_minutes: int = Query(60, description="Prediction horizon"),
+    run_scenarios: bool = Query(False, description="Run scenario evaluation")
+):
+    """
+    Trigger a full Mission Intelligence assessment.
+    Returns complete assessment with risks, actions, and recommendations.
+    """
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            response = await client.post(
+                f"{MISSION_INTELLIGENCE_URL}/webhook/trigger-assessment",
+                json={
+                    "row_index": row_index,
+                    "horizon_minutes": horizon_minutes,
+                    "run_scenarios": run_scenarios
+                }
+            )
+            response.raise_for_status()
+            return response.json()
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "message": "Failed to trigger Mission Intelligence assessment"
+        }
+
+
+@app.post("/api/mi/push-prediction")
+async def push_prediction_to_mi(
+    start_row_index: int = Query(0, description="Start row index"),
+    horizon_minutes: int = Query(60, description="Prediction horizon")
+):
+    """
+    Push Digital Twin prediction to Mission Intelligence for analysis.
+    """
+    try:
+        # Get prediction from Digital Twin
+        prediction_req = PredictRequest(
+            start_row_index=start_row_index,
+            horizon_minutes=horizon_minutes
+        )
+        prediction = await predict_nominal(prediction_req)
+        
+        # Push to Mission Intelligence
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.post(
+                f"{MISSION_INTELLIGENCE_URL}/webhook/digital-twin/prediction",
+                json={
+                    "start_row_index": start_row_index,
+                    "horizon_minutes": horizon_minutes,
+                    "prediction_data": prediction
+                }
+            )
+            response.raise_for_status()
+            return response.json()
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "message": "Failed to push prediction to Mission Intelligence"
+        }
+
+
+@app.post("/api/mi/push-recommendation")
+async def push_recommendation_to_mi(
+    recommendation_id: str = Body(..., description="Recommendation ID"),
+    action: str = Body(..., description="Recommended action"),
+    reasoning: str = Body(..., description="Reasoning for recommendation"),
+    confidence: float = Body(0.85, description="Confidence level")
+):
+    """
+    Push Digital Twin's AI recommendation to Mission Intelligence.
+    Mission Intelligence will add its own analysis.
+    """
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.post(
+                f"{MISSION_INTELLIGENCE_URL}/webhook/digital-twin/recommendation",
+                json={
+                    "recommendation_id": recommendation_id,
+                    "action": action,
+                    "reasoning": reasoning,
+                    "confidence": confidence
+                }
+            )
+            response.raise_for_status()
+            return response.json()
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "message": "Failed to push recommendation to Mission Intelligence"
+        }
 
 # Static files for frontend build if present
 FRONTEND_DIST = os.path.join(ROOT_DIR, "frontend", "dist")

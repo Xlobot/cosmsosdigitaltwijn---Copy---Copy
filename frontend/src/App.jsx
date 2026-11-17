@@ -356,6 +356,10 @@ export default function App() {
           {activeTab === 'ml_info' && (
             <ModelInfoTab />
           )}
+
+          {activeTab === 'mission_intel' && (
+            <MissionIntelligenceTab currentRowIndex={rowIndex} />
+          )}
         </ErrorBoundary>
       </main>
 
