@@ -1,31 +1,55 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { 
-  Activity, AlertTriangle, ChevronLeft, ChevronRight, Cpu, 
-  FastForward, GitFork, Globe, Pause, Play, RotateCcw, 
-  RotateCw, ShieldAlert, Sparkles, Zap, Orbit, Keyboard
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Activity, Brain, ChevronLeft, ChevronRight,
+  GitFork, Pause, Play, RotateCcw,
+  TrendingUp, Orbit, Home
 } from 'lucide-react';
 import RealTimeTab from './components/RealTimeTab';
 import PredictionTab from './components/PredictionTab';
 import ExperimentTab from './components/ExperimentTab';
-import ModelInfoTab from './components/ModelInfoTab';
+import MissionIntelligenceTab from './components/MissionIntelligenceTab';
+import LandingPage from './components/LandingPage';
 import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('realtime'); // 'realtime', 'predict', 'fork', 'ml_info'
+  const [viewMode, setViewMode] = useState('landing'); // 'landing' (entry landing page) or 'cockpit' (flight operations)
+  const [activeTab, setActiveTab] = useState('realtime'); // 'realtime', 'predict', 'fork', 'mission_intel'
   const [rowIndex, setRowIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playSpeed, setPlaySpeed] = useState(1); // 1x, 2x, 5x, 10x, 30x, 60x
 
-  // In-Memory Preloaded Dataset for 100% Zero-Latency 60 FPS Playback
+  // In-Memory Telemetry Dataset Cache
   const datasetCacheRef = useRef([]);
   const [datasetLoaded, setDatasetLoaded] = useState(false);
+  const [totalRows, setTotalRows] = useState(4320);
+  const [generatorInfo, setGeneratorInfo] = useState(null);
   const [currentState, setCurrentState] = useState(null);
   const [timeline, setTimeline] = useState([]);
   const [anomalies, setAnomalies] = useState([]);
   const [orbitPoints, setOrbitPoints] = useState([]);
-  const totalRows = 4320;
 
   const playIntervalRef = useRef(null);
+
+  // Poll system status to detect live telemetry generator stream updates
+  useEffect(() => {
+    const checkStatus = () => {
+      fetch('/api/status')
+        .then((res) => res.json())
+        .then((status) => {
+          if (status.dataset_total_rows) {
+            setTotalRows(status.dataset_total_rows);
+          }
+          if (status.generator) {
+            setGeneratorInfo(status.generator);
+          }
+        })
+        .catch(() => {});
+    };
+
+    checkStatus();
+    const interval = setInterval(checkStatus, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   // 1. Preload Full Dataset & Anomalies Registry on startup
   useEffect(() => {
@@ -55,13 +79,14 @@ export default function App() {
       })
       .catch((err) => console.error('Error fetching initial state:', err));
 
-    // Preload all 4,320 rows for instantaneous client replay
+    // Preload all dataset rows for instantaneous client replay
     fetch('/api/dataset/all')
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           datasetCacheRef.current = data;
           setDatasetLoaded(true);
+          setTotalRows(data.length);
           // Set initial timeline slice
           setTimeline(data.slice(0, 90));
           setCurrentState((prev) => prev || data[0]);
@@ -123,6 +148,7 @@ export default function App() {
   // Keyboard shortcut listener
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (viewMode !== 'cockpit') return;
       // If typing in input/select, ignore
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
 
@@ -142,7 +168,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [totalRows]);
+  }, [totalRows, viewMode]);
 
   const handleStep = (delta) => {
     setIsPlaying(false);
@@ -164,56 +190,101 @@ export default function App() {
   const currentTs = currentState?.timestamp || '2019-12-09T00:00:00Z';
   const riskLevel = String(currentState?.risk_level || 'LOW');
 
+  // Landing Page Entry Screen
+  if (viewMode === 'landing') {
+    return (
+      <LandingPage
+        onEnter={(targetTab) => {
+          if (targetTab) setActiveTab(targetTab);
+          setViewMode('cockpit');
+        }}
+        currentState={currentState}
+        totalRows={totalRows}
+        generatorInfo={generatorInfo}
+        anomalies={anomalies}
+      />
+    );
+  }
+
   return (
     <div className="app-container">
-      
+
       {/* Top Aerospace Navbar */}
       <header className="top-navbar">
-        <div className="brand-section">
+        <div
+          className="brand-section"
+          onClick={() => setViewMode('landing')}
+          style={{ cursor: 'pointer' }}
+          title="Return to Mission Portal Overview"
+        >
           <div className="brand-logo">
-            <Orbit size={24} color="#040711" />
+            <Orbit size={18} />
           </div>
           <div>
-            <div className="brand-title">COSMOS DIGITAL TWIN</div>
-            <div className="brand-subtitle">
-              Mission Control • Telemetry Replay • XGBoost Health Engine {datasetLoaded && '• Real-Time Synced'}
-            </div>
+            <div className="brand-title">COSMOS</div>
+            <div className="brand-subtitle">FLIGHT DIGITAL TWIN</div>
           </div>
         </div>
 
         {/* Navigation Tabs */}
         <div className="nav-tabs">
           <button
+            className="nav-tab-btn"
+            onClick={() => setViewMode('landing')}
+            title="Return to Mission Portal Overview"
+            style={{ borderColor: 'rgba(56, 189, 248, 0.3)' }}
+          >
+            <Home size={14} color="#38bdf8" /> Mission Portal
+          </button>
+          <button
             className={`nav-tab-btn ${activeTab === 'realtime' ? 'active' : ''}`}
             onClick={() => setActiveTab('realtime')}
           >
-            <Activity size={15} /> Real-Time Replay
+            <Activity size={14} /> Telemetry Replay
           </button>
           <button
             className={`nav-tab-btn ${activeTab === 'predict' ? 'active' : ''}`}
             onClick={() => setActiveTab('predict')}
           >
-            <Sparkles size={15} /> Prediction & Validation
+            <TrendingUp size={14} /> Propagation & Forecast
           </button>
           <button
-            className={`nav-tab-btn ${activeTab === 'fork' ? 'active' : ''}`}
-            onClick={() => setActiveTab('fork')}
+            className={`nav-tab-btn ${activeTab === 'mission_intel' || activeTab === 'fork' ? 'active' : ''}`}
+            onClick={() => setActiveTab('mission_intel')}
           >
-            <GitFork size={15} /> Experiment (Fork)
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'ml_info' ? 'active' : ''}`}
-            onClick={() => setActiveTab('ml_info')}
-          >
-            <Cpu size={15} /> Health Engine Models
+            <Brain size={14} /> Mission Intelligence &amp; Scenarios
           </button>
         </div>
 
         {/* Live Satellite Info & Risk Status */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {generatorInfo && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '3px 8px',
+              borderRadius: '4px',
+              background: generatorInfo.is_connected ? 'rgba(16, 185, 129, 0.1)' : 'rgba(100, 116, 139, 0.15)',
+              border: `1px solid ${generatorInfo.is_connected ? 'rgba(16, 185, 129, 0.3)' : 'rgba(100, 116, 139, 0.3)'}`,
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.6875rem',
+              color: generatorInfo.is_connected ? '#34d399' : '#94a3b8'
+            }}>
+              <span style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                background: generatorInfo.is_connected ? '#10b981' : '#64748b'
+              }} />
+              {generatorInfo.is_connected ? 'GENERATOR STREAM' : 'STANDBY'}
+            </div>
+          )}
           <div style={{ textAlign: 'right', fontFamily: 'var(--font-mono)' }}>
-            <div style={{ fontSize: '0.85rem', color: '#ffffff', fontWeight: 'bold' }}>ISS-25544</div>
-            <div style={{ fontSize: '0.72rem', color: '#00f0ff' }}>{currentTs}</div>
+            <div style={{ fontSize: '0.8125rem', color: '#f8fafc', fontWeight: '600' }}>ISS-25544</div>
+            <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+              {currentTs.replace('T', ' ').replace('Z', ' UTC')}
+            </div>
           </div>
           <span className={`status-pill pill-${riskLevel.toLowerCase()}`}>
             {riskLevel}
@@ -224,39 +295,39 @@ export default function App() {
       {/* Master Replay & Scrubber Control Deck */}
       <section className="playback-bar">
         {/* Play / Step Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <button className="btn-control" onClick={() => handleStep(-10)} title="Step -10m (Shift+Left)">
             -10m
           </button>
           <button className="btn-control" onClick={() => handleStep(-1)} title="Step -1m (Left Arrow)">
-            <ChevronLeft size={16} />
+            <ChevronLeft size={14} />
           </button>
           <button
             className={`btn-control ${isPlaying ? 'active' : ''}`}
             onClick={() => setIsPlaying(!isPlaying)}
-            style={{ width: '40px', justifyContent: 'center' }}
+            style={{ width: '34px', justifyContent: 'center' }}
             title={isPlaying ? 'Pause (Space)' : 'Play (Space)'}
           >
-            {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+            {isPlaying ? <Pause size={14} /> : <Play size={14} />}
           </button>
           <button className="btn-control" onClick={() => handleStep(1)} title="Step +1m (Right Arrow)">
-            <ChevronRight size={16} />
+            <ChevronRight size={14} />
           </button>
           <button className="btn-control" onClick={() => handleStep(10)} title="Step +10m (Shift+Right)">
             +10m
           </button>
-          <button className="btn-control" onClick={() => { setIsPlaying(false); setRowIndex(0); }} title="Rewind to Start">
-            <RotateCcw size={14} />
+          <button className="btn-control" onClick={() => { setIsPlaying(false); setRowIndex(0); }} title="Rewind to T=0">
+            <RotateCcw size={13} />
           </button>
         </div>
 
         {/* Speed Multiplier Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
           {[1, 2, 5, 10, 30, 60].map((spd) => (
             <button
               key={spd}
               className={`btn-control ${playSpeed === spd ? 'active' : ''}`}
-              style={{ padding: '4px 8px', fontSize: '0.72rem' }}
+              style={{ padding: '3px 6px', fontSize: '0.6875rem' }}
               onClick={() => setPlaySpeed(spd)}
             >
               {spd}x
@@ -266,50 +337,73 @@ export default function App() {
 
         {/* Interactive Scrubber with Anomaly Markers */}
         <div className="scrubber-container">
-          <div className="scrubber-track-wrap" onClick={handleScrubberClick}>
-            <div className="scrubber-track">
-              <div
-                className="scrubber-progress"
-                style={{ width: `${(rowIndex / (totalRows - 1)) * 100}%` }}
-              />
-            </div>
-            <div
-              className="scrubber-thumb"
-              style={{ left: `${(rowIndex / (totalRows - 1)) * 100}%` }}
-            />
-
-            {/* Render Anomaly Ticks */}
-            {Array.isArray(anomalies) && anomalies.map((anom, i) => {
-              const leftPct = (Number(anom.row_index) / (totalRows - 1)) * 100;
-              return (
+          {(() => {
+            const safeMax = Math.max(1, totalRows - 1);
+            const progressPct = Math.max(0, Math.min(100, (rowIndex / safeMax) * 100));
+            return (
+              <>
                 <div
-                  key={`anom-${anom.row_index}-${i}`}
-                  className="anomaly-marker"
-                  style={{ left: `${leftPct}%` }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleJumpToAnomaly(Number(anom.row_index));
+                  className="scrubber-track-wrap"
+                  onClick={handleScrubberClick}
+                  role="slider"
+                  tabIndex={0}
+                  aria-label="Orbit timeline playback scrubber"
+                  aria-valuemin={0}
+                  aria-valuemax={safeMax}
+                  aria-valuenow={rowIndex}
+                  onKeyDown={(e) => {
+                    if (e.key === 'ArrowRight') handleStep(e.shiftKey ? 10 : 1);
+                    else if (e.key === 'ArrowLeft') handleStep(e.shiftKey ? -10 : -1);
+                    else if (e.key === 'Home') setRowIndex(0);
+                    else if (e.key === 'End') setRowIndex(safeMax);
                   }}
-                  title={`Jump to ${anom.description || 'anomaly'} (Row #${anom.row_index})`}
-                />
-              );
-            })}
-          </div>
+                >
+                  <div className="scrubber-track">
+                    <div
+                      className="scrubber-progress"
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+                  <div
+                    className="scrubber-thumb"
+                    style={{ left: `${progressPct}%` }}
+                  />
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
-            <span>T=0 (2019-12-09T00:00)</span>
-            <span style={{ color: '#00f0ff' }}>
-              Row {rowIndex + 1} / {totalRows} ({((rowIndex / (totalRows - 1)) * 100).toFixed(1)}%)
-            </span>
-            <span>T+72h (2019-12-11T23:59)</span>
-          </div>
+                  {/* Render Anomaly Ticks */}
+                  {Array.isArray(anomalies) && anomalies.map((anom, i) => {
+                    const leftPct = Math.max(0, Math.min(100, (Number(anom.row_index) / safeMax) * 100));
+                    return (
+                      <div
+                        key={`anom-${anom.row_index}-${i}`}
+                        className="anomaly-marker"
+                        style={{ left: `${leftPct}%` }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleJumpToAnomaly(Number(anom.row_index));
+                        }}
+                        title={`Anomaly: ${anom.description || 'Telemetry fault'} (Row #${anom.row_index})`}
+                      />
+                    );
+                  })}
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.6875rem', fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
+                  <span>T=0 (Stream Start)</span>
+                  <span style={{ color: 'var(--text-accent)' }}>
+                    Row {rowIndex + 1} / {totalRows} ({progressPct.toFixed(1)}%)
+                  </span>
+                  <span>T+{totalRows}m (Live Buffer)</span>
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         {/* Jump-To-Anomaly Event Dropdown */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Jump To:</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>JUMP:</span>
           <select
-            style={{ maxWidth: '240px', fontSize: '0.75rem', padding: '4px 8px' }}
+            style={{ maxWidth: '220px', fontSize: '0.6875rem', padding: '3px 6px' }}
             onChange={(e) => {
               if (e.target.value !== '') {
                 handleJumpToAnomaly(parseInt(e.target.value));
@@ -317,10 +411,10 @@ export default function App() {
             }}
             value=""
           >
-            <option value="">Select Anomaly Event...</option>
+            <option value="">Anomaly Events ({Array.isArray(anomalies) ? anomalies.length : 0})...</option>
             {Array.isArray(anomalies) && anomalies.map((a, i) => (
               <option key={`opt-${a.row_index}-${i}`} value={a.row_index}>
-                Row {a.row_index}: {String(a.parameter || 'unknown').toUpperCase()} ({String(a.timestamp || '').slice(11, 16) || '??:??'})
+                #{a.row_index} {String(a.parameter || 'system').toUpperCase()} ({String(a.timestamp || '').slice(11, 16) || '??:??'})
               </option>
             ))}
           </select>
@@ -336,6 +430,7 @@ export default function App() {
               timeline={timeline}
               orbitPoints={orbitPoints}
               isPlaying={isPlaying}
+              totalRows={totalRows}
             />
           )}
 
@@ -346,15 +441,11 @@ export default function App() {
             />
           )}
 
-          {activeTab === 'fork' && (
-            <ExperimentTab
+          {(activeTab === 'mission_intel' || activeTab === 'fork') && (
+            <MissionIntelligenceTab
               currentRowIndex={rowIndex}
               currentState={currentState}
             />
-          )}
-
-          {activeTab === 'ml_info' && (
-            <ModelInfoTab />
           )}
         </ErrorBoundary>
       </main>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  AlertTriangle, Check, CheckCircle2, ChevronRight, GitFork, 
-  Lightbulb, Play, Rocket, Shield, Sliders, Sparkles, Thermometer, Zap 
+  GitFork, Lightbulb, Play, Sliders 
 } from 'lucide-react';
 
 export default function ExperimentTab({ currentRowIndex, currentState }) {
@@ -68,28 +67,28 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
   const aiRec = forkData?.ai_recommendation;
 
   const getScenarioColor = (idx) => {
-    if (idx === 0) return '#00f0ff'; // Cyan
+    if (idx === 0) return '#38bdf8'; // Cyan/Blue
     if (idx === 1) return '#10b981'; // Emerald
-    if (idx === 2) return '#8b5cf6'; // Purple
+    if (idx === 2) return '#818cf8'; // Indigo
     return '#f59e0b'; // Amber
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', padding: '20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '16px' }}>
       
       {/* Top Controls: Forking Trigger & Horizon */}
-      <div className="glass-panel" style={{ padding: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
+      <div className="glass-panel" style={{ padding: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-display)', fontSize: '1.05rem', color: '#8b5cf6' }}>
-            <GitFork size={18} /> Counterfactual Scenario Forking & "What-If" Analysis
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9375rem', fontWeight: '600', color: 'var(--text-main)' }}>
+            <GitFork size={16} color="#38bdf8" /> Counterfactual Scenario Forking
           </div>
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-            Forked from live snapshot <strong>{currentState?.twin_state_id || 'TWIN-000001'}</strong> (Row #{currentRowIndex}). Simulating parallel operational branches.
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px', fontFamily: 'var(--font-mono)' }}>
+            Branching from state <strong>{currentState?.twin_state_id || 'TWIN-000001'}</strong> (Row #{currentRowIndex}). Simulating parallel operational decisions.
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 'bold' }}>HORIZON:</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>HORIZON:</span>
           {[30, 60, 90, 120].map((m) => (
             <button
               key={m}
@@ -97,29 +96,29 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
               onClick={() => setHorizonMinutes(m)}
               disabled={loading}
             >
-              {m} min
+              {m}m
             </button>
           ))}
           <button
             className={`btn-control ${activeTab === 'sandbox' ? 'active' : ''}`}
             onClick={() => setActiveTab(activeTab === 'sandbox' ? 'comparison' : 'sandbox')}
           >
-            <Sliders size={14} /> Custom Sandbox
+            <Sliders size={13} /> Sandbox Controls
           </button>
         </div>
       </div>
 
       {/* Custom Sandbox Panel if Active */}
       {activeTab === 'sandbox' && (
-        <div className="glass-panel glass-panel-glow" style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--font-display)', fontSize: '0.9rem', color: '#00f0ff' }}>
-            <Sliders size={16} /> Custom Control Parameter Sandbox
+        <div className="glass-panel" style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '12px', border: '1px solid var(--accent-primary)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', fontWeight: '600', color: 'var(--text-main)' }}>
+            <Sliders size={15} color="#38bdf8" /> Maneuver & Control Parameters
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
             <div>
-              <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>
-                Prograde Delta-V Burn (m/s): <strong style={{ color: '#00f0ff' }}>{customDeltaV} m/s</strong>
+              <label style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px', fontFamily: 'var(--font-mono)' }}>
+                Prograde Delta-V: <span style={{ color: 'var(--accent-cyan)' }}>{customDeltaV} m/s</span>
               </label>
               <input
                 type="range"
@@ -132,8 +131,8 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
             </div>
 
             <div>
-              <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>
-                Burn Duration: <strong style={{ color: '#00f0ff' }}>{customThrustDur} s</strong>
+              <label style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px', fontFamily: 'var(--font-mono)' }}>
+                Burn Duration: <span style={{ color: 'var(--accent-cyan)' }}>{customThrustDur} s</span>
               </label>
               <input
                 type="range"
@@ -146,8 +145,8 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
             </div>
 
             <div>
-              <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>
-                Payload Power Override:
+              <label style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px', fontFamily: 'var(--font-mono)' }}>
+                Payload Command:
               </label>
               <select
                 value={customPayload}
@@ -155,15 +154,15 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
                 style={{ width: '100%' }}
               >
                 <option value="FORCE_OFF">FORCE_OFF (Power Shedding)</option>
-                <option value="FORCE_ON">FORCE_ON (Full Observation)</option>
+                <option value="FORCE_ON">FORCE_ON (Continuous)</option>
                 <option value="DUTY_CYCLE_50">DUTY_CYCLE_50 (5m ON / 5m OFF)</option>
                 <option value="KEEP">KEEP (Nominal Cycle)</option>
               </select>
             </div>
 
             <div>
-              <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>
-                Radiator Slew Angle: <strong style={{ color: '#00f0ff' }}>{customThermalSlew}°</strong>
+              <label style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', display: 'block', marginBottom: '4px', fontFamily: 'var(--font-mono)' }}>
+                Radiator Slew Angle: <span style={{ color: 'var(--accent-cyan)' }}>{customThermalSlew}°</span>
               </label>
               <input
                 type="range"
@@ -176,40 +175,38 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '6px' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
             <button className="btn-primary" onClick={handleRunCustom} disabled={loading}>
-              <Play size={14} style={{ display: 'inline', marginRight: '6px' }} /> Simulate Forked Scenario
+              <Play size={13} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Run Simulation
             </button>
           </div>
         </div>
       )}
 
-      {/* Explainable AI Decision Engine Box (The Mission Assistant & Explainability Tier) */}
+      {/* Decision Analysis Assessment */}
       {aiRec && (
         <div className="glass-panel" style={{
-          padding: '18px',
-          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(16, 185, 129, 0.12) 100%)',
-          border: '1px solid rgba(139, 92, 246, 0.4)',
-          borderRadius: 'var(--radius-md)',
-          boxShadow: '0 0 24px rgba(139, 92, 246, 0.2)'
+          padding: '14px',
+          borderLeft: '3px solid var(--accent-cyan)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-            <div style={{ background: '#8b5cf6', padding: '6px', borderRadius: '50%', display: 'flex' }}>
-              <Lightbulb size={18} color="#ffffff" />
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 'bold', fontSize: '0.92rem', color: '#ddd6fe', letterSpacing: '0.6px' }}>
-              EXPLAINABLE AI RECOMMENDATION & TRADE-OFF REASONING
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Lightbulb size={16} color="#38bdf8" />
+            <div style={{ fontWeight: '600', fontSize: '0.8125rem', color: 'var(--text-main)', letterSpacing: '0.02em' }}>
+              AUTOMATED FLIGHT DECISION ASSESSMENT & TRADE-OFFS
             </div>
           </div>
 
-          <div style={{ fontSize: '0.86rem', lineHeight: '1.55', color: '#f1f5f9', background: 'rgba(5, 10, 24, 0.5)', padding: '12px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ fontSize: '0.8125rem', lineHeight: '1.5', color: '#cbd5e1', background: 'var(--bg-surface-elevated)', padding: '10px 12px', borderRadius: '4px', border: '1px solid var(--border-subtle)' }}>
             {aiRec.executive_summary}
           </div>
         </div>
       )}
 
       {/* Side-by-Side Candidate Scenarios Matrix */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px' }}>
         {scenarios.map((scn, idx) => {
           const color = getScenarioColor(idx);
           const isWinner = aiRec?.recommended_scenario_id === scn.scenario_id;
@@ -218,64 +215,64 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
           return (
             <div
               key={scn.scenario_id}
-              className={`glass-panel ${isWinner ? 'glass-panel-glow' : ''}`}
+              className="glass-panel"
               style={{
-                padding: '18px',
-                borderTop: `4px solid ${color}`,
+                padding: '14px',
+                borderTop: `3px solid ${color}`,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '12px'
+                gap: '10px'
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                  <div style={{ fontSize: '0.72rem', color: color, fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  <div style={{ fontSize: '0.6875rem', color: color, fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.04em', fontFamily: 'var(--font-mono)' }}>
                     {scn.scenario_id}
                   </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.95rem', fontWeight: 'bold', color: '#ffffff', marginTop: '2px' }}>
+                  <div style={{ fontSize: '0.875rem', fontWeight: '600', color: 'var(--text-main)', marginTop: '2px' }}>
                     {scn.scenario_label}
                   </div>
                 </div>
                 {isWinner && (
-                  <span className="status-pill pill-low" style={{ background: 'rgba(16, 185, 129, 0.25)' }}>
+                  <span className="status-pill pill-low">
                     RECOMMENDED
                   </span>
                 )}
               </div>
 
               {/* Metrics Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', fontSize: '0.78rem' }}>
-                <div style={{ background: 'rgba(255,255,255,0.04)', padding: '8px', borderRadius: '6px' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Final Health:</span>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.1rem', fontWeight: 'bold', color: color }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px', fontSize: '0.75rem' }}>
+                <div style={{ background: 'var(--bg-surface-elevated)', padding: '6px 8px', borderRadius: '4px', border: '1px solid var(--border-subtle)' }}>
+                  <span style={{ color: 'var(--text-dim)', fontSize: '0.6875rem' }}>Final Health:</span>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: '700', color: color }}>
                     {sumry.final_health_score} pts
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(255,255,255,0.04)', padding: '8px', borderRadius: '6px' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Min Battery:</span>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.1rem', fontWeight: 'bold', color: sumry.min_battery_pct < 30 ? '#ef4444' : '#ffffff' }}>
+                <div style={{ background: 'var(--bg-surface-elevated)', padding: '6px 8px', borderRadius: '4px', border: '1px solid var(--border-subtle)' }}>
+                  <span style={{ color: 'var(--text-dim)', fontSize: '0.6875rem' }}>Min Battery:</span>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: '700', color: sumry.min_battery_pct < 30 ? 'var(--status-critical)' : 'var(--text-main)' }}>
                     {sumry.min_battery_pct}%
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(255,255,255,0.04)', padding: '8px', borderRadius: '6px' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Peak Temp:</span>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.1rem', fontWeight: 'bold', color: sumry.max_temperature_c > 45 ? '#ef4444' : '#ffffff' }}>
+                <div style={{ background: 'var(--bg-surface-elevated)', padding: '6px 8px', borderRadius: '4px', border: '1px solid var(--border-subtle)' }}>
+                  <span style={{ color: 'var(--text-dim)', fontSize: '0.6875rem' }}>Peak Temp:</span>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: '700', color: sumry.max_temperature_c > 45 ? 'var(--status-critical)' : 'var(--text-main)' }}>
                     {sumry.max_temperature_c}°C
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(255,255,255,0.04)', padding: '8px', borderRadius: '6px' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>Risk Level:</span>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.0rem', fontWeight: 'bold', color: sumry.final_risk_level === 'LOW' ? '#10b981' : '#f59e0b' }}>
+                <div style={{ background: 'var(--bg-surface-elevated)', padding: '6px 8px', borderRadius: '4px', border: '1px solid var(--border-subtle)' }}>
+                  <span style={{ color: 'var(--text-dim)', fontSize: '0.6875rem' }}>Risk Level:</span>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9375rem', fontWeight: '700', color: sumry.final_risk_level === 'LOW' ? 'var(--status-nominal)' : 'var(--status-caution)' }}>
                     {sumry.final_risk_level}
                   </div>
                 </div>
               </div>
 
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '8px' }}>
-                Controls: {scn.controls?.payload_override} | ΔV: {scn.controls?.delta_v_prograde_ms || 0} m/s | Rad Slew: {scn.controls?.thermal_slew_deg || 0}°
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-dim)', borderTop: '1px solid var(--border-subtle)', paddingTop: '6px', fontFamily: 'var(--font-mono)' }}>
+                Cmd: {scn.controls?.payload_override} | ΔV: {scn.controls?.delta_v_prograde_ms || 0} m/s | Rad: {scn.controls?.thermal_slew_deg || 0}°
               </div>
             </div>
           );
@@ -283,12 +280,12 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
       </div>
 
       {/* Multi-Curve Scenario Comparison Chart */}
-      <div className="glass-panel" style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      <div className="glass-panel" style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '0.88rem', color: '#ffffff' }}>
-            Parallel Health Score Trajectory Comparison
+          <div style={{ fontSize: '0.8125rem', fontWeight: '600', color: 'var(--text-main)' }}>
+            Comparative Subsystem Health Forecast
           </div>
-          <div style={{ display: 'flex', gap: '12px', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
+          <div style={{ display: 'flex', gap: '12px', fontSize: '0.6875rem', fontFamily: 'var(--font-mono)' }}>
             {scenarios.map((scn, idx) => (
               <span key={scn.scenario_id} style={{ color: getScenarioColor(idx) }}>
                 ● {scn.scenario_label.split(':')[0]}
@@ -298,11 +295,11 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
         </div>
 
         {/* SVG Multi-Line Chart */}
-        <div style={{ width: '100%', height: '220px', background: 'rgba(5, 10, 24, 0.7)', borderRadius: '8px', padding: '12px', border: '1px solid var(--border-subtle)' }}>
+        <div style={{ width: '100%', height: '200px', background: '#05080e', borderRadius: '4px', padding: '10px', border: '1px solid var(--border-subtle)' }}>
           {scenarios.length > 0 ? (
             <svg width="100%" height="100%" viewBox="0 0 600 180" preserveAspectRatio="none">
               {[0.25, 0.5, 0.75].map((g) => (
-                <line key={g} x1="0" y1={180 * g} x2="600" y2={180 * g} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                <line key={g} x1="0" y1={180 * g} x2="600" y2={180 * g} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
               ))}
 
               {scenarios.map((scn, idx) => {
@@ -323,14 +320,14 @@ export default function ExperimentTab({ currentRowIndex, currentState }) {
                     d={pathD}
                     fill="none"
                     stroke={color}
-                    strokeWidth={idx === 1 ? 3.5 : 2}
+                    strokeWidth={idx === 1 ? 2.5 : 1.5}
                   />
                 );
               })}
             </svg>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)' }}>
-              Calculating Scenario Forecasts...
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.8125rem' }}>
+              Calculating scenario branches...
             </div>
           )}
         </div>

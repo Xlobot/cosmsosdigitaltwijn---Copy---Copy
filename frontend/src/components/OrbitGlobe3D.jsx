@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { Compass, Eye, RotateCcw, Sun, Moon, Orbit, Video } from 'lucide-react';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { Eye, RotateCcw, Sun, Moon, Orbit } from 'lucide-react';
 
 export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = false }) {
   const mountRef = useRef(null);
@@ -53,7 +54,7 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
 
     // 2. Realistic Continent Contours & Mountain Relief
     ctx.fillStyle = '#1e3a29'; // Forest green / terrain
-    
+
     // Draw North America
     ctx.beginPath();
     ctx.moveTo(250, 180);
@@ -101,7 +102,7 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
     ctx.fillRect(0, 920, 2048, 104);
 
     // 3. Coordinate Navigation Grid
-    ctx.strokeStyle = 'rgba(0, 240, 255, 0.12)';
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
     ctx.lineWidth = 1;
     for (let x = 0; x <= 2048; x += 128) {
       ctx.beginPath();
@@ -117,7 +118,7 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
     }
 
     // Equator Line Highlight
-    ctx.strokeStyle = 'rgba(0, 240, 255, 0.35)';
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(0, 512);
@@ -128,26 +129,9 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
   };
 
   // High-Resolution Procedural Atmospheric Cloud Texture
-  const createCloudTexture = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1024;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgba(0, 0, 0, 0)';
-    ctx.fillRect(0, 0, 1024, 512);
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
-    for (let i = 0; i < 90; i++) {
-      const x = Math.random() * 1024;
-      const y = Math.random() * 512;
-      const rx = 30 + Math.random() * 90;
-      const ry = 15 + Math.random() * 40;
-      ctx.beginPath();
-      ctx.ellipse(x, y, rx, ry, Math.random() * Math.PI, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    return new THREE.CanvasTexture(canvas);
-  };
+
+
 
   // Build Detailed Satellite Mesh
   const buildSatelliteMesh = () => {
@@ -174,7 +158,7 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
       roughness: 0.2,
       emissive: 0x001833
     });
-    
+
     // Left Wing
     const leftPanel = new THREE.Mesh(panelGeo, panelMat);
     leftPanel.position.set(-1.15, 0, 0);
@@ -275,47 +259,68 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
     scene.add(sunLight);
     sunLightRef.current = sunLight;
 
-    // Earth Sphere Group
+    // Earth Group (GLB model)
     const earthGroup = new THREE.Group();
     const earthRadius = 5.0;
 
-    // Main Earth Globe
-    const earthGeo = new THREE.SphereGeometry(earthRadius, 64, 64);
-    const earthTex = createPhotorealisticEarthTexture();
-    const earthMat = new THREE.MeshStandardMaterial({
-      map: earthTex,
-      roughness: 0.65,
-      metalness: 0.15,
-    });
-    const earthMesh = new THREE.Mesh(earthGeo, earthMat);
-    earthGroup.add(earthMesh);
-
-    // Cloud Layer
-    const cloudGeo = new THREE.SphereGeometry(earthRadius * 1.015, 64, 64);
-    const cloudTex = createCloudTexture();
-    const cloudMat = new THREE.MeshStandardMaterial({
-      map: cloudTex,
-      transparent: true,
-      opacity: 0.4,
-      blending: THREE.AdditiveBlending,
-    });
-    const cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
-    earthGroup.add(cloudMesh);
-    cloudMeshRef.current = cloudMesh;
-
-    // Atmosphere Outer Glow
-    const atmoGeo = new THREE.SphereGeometry(earthRadius * 1.05, 64, 64);
-    const atmoMat = new THREE.MeshBasicMaterial({
-      color: 0x00c8ff,
-      transparent: true,
-      opacity: 0.18,
-      side: THREE.BackSide,
-    });
-    const atmoMesh = new THREE.Mesh(atmoGeo, atmoMat);
-    earthGroup.add(atmoMesh);
-
     scene.add(earthGroup);
     earthGroupRef.current = earthGroup;
+
+    // Load earth_globe.glb
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load(
+      '/earth_globe.glb',
+      (gltf) => {
+        if (!aliveRef.current) return;
+        const model = gltf.scene;
+
+        // Scale model to earthRadius (diameter = earthRadius * 2)
+        const box = new THREE.Box3().setFromObject(model);
+        const size = new THREE.Vector3();
+        box.getSize(size);
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scaleFactor = (earthRadius * 2) / maxDim;
+        model.scale.setScalar(scaleFactor);
+
+        // Re-compute bounding box AFTER scale to get the true world-space centre,
+        // then offset model.position so the geometry sits exactly at group origin,
+        // co-located with the cloud and atmosphere spheres.
+        const scaledBox = new THREE.Box3().setFromObject(model);
+        const centre = new THREE.Vector3();
+        scaledBox.getCenter(centre);
+        model.position.sub(centre);
+
+
+
+        earthGroup.add(model);
+
+        // Cloud Layer (sits just above the model surface)
+        const cloudGeo = new THREE.SphereGeometry(earthRadius * 1.015, 64, 64);
+        const cloudTex = createCloudTexture();
+        const cloudMat = new THREE.MeshStandardMaterial({
+          map: cloudTex,
+          transparent: true,
+          opacity: 0.4,
+          blending: THREE.AdditiveBlending,
+        });
+        const cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
+        earthGroup.add(cloudMesh);
+        cloudMeshRef.current = cloudMesh;
+
+        // Atmosphere Outer Glow
+        const atmoGeo = new THREE.SphereGeometry(earthRadius * 1.05, 64, 64);
+        const atmoMat = new THREE.MeshBasicMaterial({
+          color: 0x00c8ff,
+          transparent: true,
+          opacity: 0.18,
+          side: THREE.BackSide,
+        });
+        const atmoMesh = new THREE.Mesh(atmoGeo, atmoMat);
+        earthGroup.add(atmoMesh);
+      },
+      undefined,
+      (err) => console.error('Failed to load earth_globe.glb:', err)
+    );
 
     // Starfield Background
     const starsGeo = new THREE.BufferGeometry();
@@ -459,6 +464,8 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
       window.removeEventListener('mouseup', onMouseUp);
       mountEl.removeEventListener('wheel', onWheel);
       try {
+        starsGeo?.dispose();
+        starsMat?.dispose();
         if (renderer?.domElement?.parentNode) {
           renderer.domElement.parentNode.removeChild(renderer.domElement);
         }
@@ -532,24 +539,24 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
       {/* Floating HUD Telemetry Overlay */}
       <div className="globe-hud-overlay">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-          <span style={{ color: '#00f0ff', fontWeight: 'bold' }}>SAT: ISS-25544</span>
+          <span style={{ color: '#38bdf8', fontWeight: '600' }}>SAT: ISS-25544</span>
           <span style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '4px',
-            color: isSun ? '#10b981' : '#f59e0b',
-            background: isSun ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)',
-            padding: '2px 6px',
-            borderRadius: '4px',
-            fontSize: '0.68rem'
+            color: isSun ? 'var(--status-nominal)' : 'var(--status-caution)',
+            background: isSun ? 'var(--status-nominal-bg)' : 'var(--status-caution-bg)',
+            padding: '2px 5px',
+            borderRadius: 'var(--radius-xs)',
+            fontSize: '0.625rem'
           }}>
-            {isSun ? <Sun size={12} /> : <Moon size={12} />}
+            {isSun ? <Sun size={11} /> : <Moon size={11} />}
             {isSun ? 'SUNLIT' : 'ECLIPSE'}
           </span>
         </div>
-        <div style={{ color: '#94a3b8' }}>LAT: <span style={{ color: '#ffffff' }}>{satLat >= 0 ? `${satLat}° N` : `${Math.abs(satLat)}° S`}</span></div>
-        <div style={{ color: '#94a3b8' }}>LON: <span style={{ color: '#ffffff' }}>{satLon >= 0 ? `${satLon}° E` : `${Math.abs(satLon)}° W`}</span></div>
-        <div style={{ color: '#94a3b8' }}>ALT: <span style={{ color: '#00f0ff' }}>{satAlt} km</span> | VEL: <span style={{ color: '#00f0ff' }}>{velMag} km/s</span></div>
+        <div style={{ color: 'var(--text-muted)' }}>LAT: <span style={{ color: 'var(--text-main)' }}>{satLat >= 0 ? `${satLat}° N` : `${Math.abs(satLat)}° S`}</span></div>
+        <div style={{ color: 'var(--text-muted)' }}>LON: <span style={{ color: 'var(--text-main)' }}>{satLon >= 0 ? `${satLon}° E` : `${Math.abs(satLon)}° W`}</span></div>
+        <div style={{ color: 'var(--text-muted)' }}>ALT: <span style={{ color: '#38bdf8' }}>{satAlt} km</span> | VEL: <span style={{ color: '#38bdf8' }}>{velMag} km/s</span></div>
       </div>
 
       {/* Camera View Mode Controls */}
