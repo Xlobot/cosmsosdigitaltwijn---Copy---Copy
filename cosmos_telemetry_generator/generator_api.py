@@ -21,12 +21,23 @@ import threading
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
 
-from fastapi import FastAPI, Query, HTTPException, Body, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Query, HTTPException, Body, WebSocket, WebSocketDisconnect, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.abspath(os.path.join(HERE, ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+from cosmos_security import (
+    require_role,
+    require_viewer_or_service_key,
+    authenticate_websocket,
+    ROLE_VIEWER,
+    ROLE_ADMIN
+)
 DEFAULT_CSV = os.path.join(HERE, "cosmos_integrated_dataset.csv")
 
 NUMERIC_FIELDS = {
@@ -467,8 +478,14 @@ class AnomalyInjectionRequest(BaseModel):
     )
 
 
+@app.get("/healthz", summary="Public Health Check")
+def healthz():
+    """Minimal unauthenticated health check returning status ok."""
+    return {"status": "ok"}
+
+
 @app.get("/", summary="Root Overview")
-def root_info():
+def root_info(auth: dict = Depends(require_role(ROLE_VIEWER))):
     """Provides service status, available endpoints, and instructions for Digital Twin integration."""
     return {
         "service": "COSMOS Telemetry Generator API",
@@ -501,7 +518,7 @@ def root_info():
 @app.get("/status", include_in_schema=False)
 @app.get("/api/status", include_in_schema=False)
 @app.get("/ping", include_in_schema=False)
-def get_health():
+def get_health(auth: dict = Depends(require_viewer_or_service_key)):
     """
     Standard health check endpoint polled by Digital Twin's `LiveIngest._health_ok()`.
     Returns `status: ok` and telemetry stream statistics.
@@ -515,10 +532,11 @@ def get_health():
 @app.get("/current", include_in_schema=False)
 @app.get("/api/current", include_in_schema=False)
 @app.get("/state", include_in_schema=False)
-def get_latest():
+def get_latest(auth: dict = Depends(require_viewer_or_service_key)):
     """
     Returns the single most recent satellite telemetry frame emitted by the generator.
     The digital twin can query this for instantaneous state synchronization.
+    Requires viewer role or X-Service-Key authentication header.
     """
     latest = streamer.get_latest()
     if not latest:
@@ -541,7 +559,8 @@ def get_rows(
     from_row: Optional[int] = Query(None, alias="from", description="From index alias for since"),
     limit: Optional[int] = Query(None, description="Max number of rows to return"),
     count: Optional[int] = Query(None, description="Count alias for limit"),
-    format: Optional[str] = Query("list", description="Format: 'list' (default JSON array) or 'envelope'")
+    format: Optional[str] = Query("list", description="Format: 'list' (default JSON array) or 'envelope'"),
+    auth: dict = Depends(require_viewer_or_service_key)
 ):
     """
     The primary ingestion endpoint consumed by the Digital Twin LiveIngest engine.
@@ -580,9 +599,11 @@ def get_rows(
 async def websocket_telemetry(websocket: WebSocket):
     """
     Real-time WebSocket stream of satellite telemetry frames.
-    Connect from frontend/client via: const ws = new WebSocket('ws://localhost:8080/ws');
+    Requires authenticated token via Sec-WebSocket-Protocol header or initial auth message.
     """
-    await websocket.accept()
+    payload = await authenticate_websocket(websocket, min_role=ROLE_VIEWER)
+    if not payload:
+        return
     last_emitted_index = -1
     try:
         while True:
@@ -598,10 +619,10 @@ async def websocket_telemetry(websocket: WebSocket):
 @app.get("/stream", summary="Server-Sent Events (SSE) Stream")
 @app.get("/api/stream", include_in_schema=False)
 @app.get("/events", include_in_schema=False)
-async def sse_telemetry():
+async def sse_telemetry(auth: dict = Depends(require_role(ROLE_VIEWER))):
     """
     Real-time Server-Sent Events (SSE) stream of satellite telemetry frames.
-    Connect from browser via: const es = new EventSource('http://localhost:8080/stream');
+    Requires valid viewer Bearer token.
     """
     async def event_generator():
         last_emitted_index = -1
@@ -618,7 +639,7 @@ async def sse_telemetry():
 @app.get("/keys", summary="Telemetry Key Catalog & Digital Twin Mapping")
 @app.get("/api/keys", include_in_schema=False)
 @app.get("/metadata", include_in_schema=False)
-def get_keys():
+def get_keys(auth: dict = Depends(require_role(ROLE_VIEWER))):
     """
     Returns complete documentation of all 32 telemetry keys: data types, physical units,
     subsystems, and example values.
@@ -642,7 +663,7 @@ def get_keys():
 
 @app.get("/schema", summary="Telemetry Data Schema")
 @app.get("/api/schema", include_in_schema=False)
-def get_schema():
+def get_schema(auth: dict = Depends(require_role(ROLE_VIEWER))):
     """Returns the JSON schema of keys emitted in every telemetry row."""
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -662,7 +683,7 @@ def get_schema():
 
 @app.post("/control/rate", summary="Adjust Telemetry Frequency")
 @app.post("/api/control/rate", include_in_schema=False)
-def set_rate(req: RateChangeRequest):
+def set_rate(req: RateChangeRequest, auth: dict = Depends(require_role(ROLE_ADMIN))):
     """Dynamically increases or decreases the real-time telemetry emission rate."""
     streamer.set_interval(req.interval_seconds)
     return {"message": f"Emission interval updated to {req.interval_seconds}s ({1.0/req.interval_seconds:.2f} Hz)"}
@@ -670,7 +691,7 @@ def set_rate(req: RateChangeRequest):
 
 @app.post("/control/pause", summary="Pause Stream")
 @app.post("/api/control/pause", include_in_schema=False)
-def pause_stream():
+def pause_stream(auth: dict = Depends(require_role(ROLE_ADMIN))):
     """Pauses telemetry streaming."""
     streamer.pause()
     return {"message": "Telemetry stream paused"}
@@ -678,7 +699,7 @@ def pause_stream():
 
 @app.post("/control/resume", summary="Resume Stream")
 @app.post("/api/control/resume", include_in_schema=False)
-def resume_stream():
+def resume_stream(auth: dict = Depends(require_role(ROLE_ADMIN))):
     """Resumes telemetry streaming."""
     streamer.resume()
     return {"message": "Telemetry stream resumed"}
@@ -686,7 +707,7 @@ def resume_stream():
 
 @app.post("/control/reset", summary="Reset Stream Cursor")
 @app.post("/api/control/reset", include_in_schema=False)
-def reset_stream():
+def reset_stream(auth: dict = Depends(require_role(ROLE_ADMIN))):
     """Resets the emission cursor back to the start of the dataset."""
     streamer.reset()
     return {"message": "Telemetry stream reset to index 0"}
@@ -694,7 +715,7 @@ def reset_stream():
 
 @app.post("/inject/anomaly", summary="Inject Synthetic Fault / Anomaly")
 @app.post("/api/inject/anomaly", include_in_schema=False)
-def inject_anomaly(req: AnomalyInjectionRequest):
+def inject_anomaly(req: AnomalyInjectionRequest, auth: dict = Depends(require_role(ROLE_ADMIN))):
     """
     Injects a temporary fault into the telemetry feed (e.g. temperature spike to 90°C)
     to test the Digital Twin's ML anomaly detection and risk scoring in real time.

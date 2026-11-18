@@ -59,7 +59,7 @@ function TelemetryStreamChart({ timelineData, currentIndex }) {
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !timelineData || timelineData.length === 0) return;
+    if (!canvas || !Array.isArray(timelineData) || timelineData.length === 0) return;
 
     const ctx = canvas.getContext('2d');
     const width = canvas.width;
@@ -85,7 +85,9 @@ function TelemetryStreamChart({ timelineData, currentIndex }) {
       ctx.strokeStyle = color;
       ctx.lineWidth = lineWidth;
       ctx.beginPath();
+      if (!Array.isArray(timelineData)) return;
       timelineData.forEach((pt, i) => {
+        if (!pt) return;
         const val = pt[key] ?? 0;
         const norm = (val - minVal) / Math.max(maxVal - minVal, 1e-4);
         const x = i * stepX;

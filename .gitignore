@@ -34,3 +34,10 @@ yarn-error.log*
 cosmsosdigitaltwijn---Copy---Copy-helee/
 .DS_Store
 Thumbs.db
+
+# Secrets & SQLite Database
+.env
+.env.local
+*.db
+*.sqlite
+*.sqlite3

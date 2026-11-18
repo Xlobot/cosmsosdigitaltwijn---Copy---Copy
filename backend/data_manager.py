@@ -19,6 +19,7 @@ from typing import Optional, List, Dict, Any
 
 from .orbit_propagator import cartesian_to_geodetic, OMEGA_EARTH
 from .ml_engine import HealthMLEngine
+from cosmos_security import get_service_headers
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
@@ -72,23 +73,29 @@ class DataManager:
         self._start_background_sync()
 
     def _initialize_data(self):
-        """Initial bootstrap: fetches telemetry from the generator REST API or generator CSV fallback."""
-        loaded_rows = self._fetch_rows_from_api(since=0, limit=4320)
-        
-        if loaded_rows and len(loaded_rows) > 0:
-            print(f"[DataManager] Successfully fetched {len(loaded_rows)} initial frames directly from Telemetry Generator API.")
-            self.is_connected = True
-            self.cursor = len(loaded_rows)
-            df_init = pd.DataFrame(loaded_rows)
+        """Initial bootstrap: loads the baseline telemetry dataset, then establishes live generator sync."""
+        if os.path.exists(GENERATOR_CSV_FALLBACK):
+            print(f"[DataManager] Loading baseline telemetry dataset from {GENERATOR_CSV_FALLBACK}...")
+            df_init = pd.read_csv(GENERATOR_CSV_FALLBACK)
         else:
-            print(f"[DataManager] Generator API not yet active on {self.generator_url}. Loading baseline from {GENERATOR_CSV_FALLBACK}...")
-            if os.path.exists(GENERATOR_CSV_FALLBACK):
-                df_init = pd.read_csv(GENERATOR_CSV_FALLBACK)
-                self.cursor = len(df_init)
-            else:
-                raise FileNotFoundError(f"Could not locate generator data source at {GENERATOR_CSV_FALLBACK}")
+            raise FileNotFoundError(f"Could not locate generator data source at {GENERATOR_CSV_FALLBACK}")
 
-        # Ensure correct column types
+        # Check generator connectivity and sync cursor
+        try:
+            health_url = f"{self.generator_url}/health"
+            req = urllib.request.Request(health_url, headers=get_service_headers())
+            with urllib.request.urlopen(req, timeout=2.0) as resp:
+                hdata = json.loads(resp.read().decode())
+                if hdata.get("status") == "ok":
+                    self.is_connected = True
+                    self.cursor = hdata.get("rows_emitted", 0)
+                    print(f"[DataManager] Connected to live Telemetry Generator API (cursor at frame #{self.cursor}).")
+        except Exception:
+            self.is_connected = False
+            self.cursor = 0
+            print(f"[DataManager] Telemetry Generator not currently active on {self.generator_url}. Baseline loaded.")
+
+        # Ensure correct column types and ML evaluation
         self._process_and_evaluate_dataframe(df_init)
 
     def _process_and_evaluate_dataframe(self, df_raw: pd.DataFrame):
@@ -161,7 +168,10 @@ class DataManager:
         """Queries the generator REST API endpoint."""
         url = f"{self.generator_url}/rows?since={since}&limit={limit}"
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "COSMOS-DigitalTwin/2.0"})
+            req = urllib.request.Request(
+                url,
+                headers={"User-Agent": "COSMOS-DigitalTwin/2.0", **get_service_headers()}
+            )
             with urllib.request.urlopen(req, timeout=3.0) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 if isinstance(data, list):
@@ -194,7 +204,8 @@ class DataManager:
                     # Check health
                     health_url = f"{self.generator_url}/health"
                     try:
-                        with urllib.request.urlopen(health_url, timeout=1.5) as hresp:
+                        req = urllib.request.Request(health_url, headers=get_service_headers())
+                        with urllib.request.urlopen(req, timeout=1.5) as hresp:
                             hdata = json.loads(hresp.read().decode())
                             self.is_connected = (hdata.get("status") == "ok")
                     except Exception:

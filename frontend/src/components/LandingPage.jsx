@@ -3,7 +3,8 @@ import {
   Orbit, Activity, TrendingUp, GitFork, Brain,
   Radio, Cpu, Zap, ShieldCheck, Compass,
   Layers, ArrowRight, Play, ExternalLink, Satellite,
-  Thermometer, CheckCircle2, Sparkles, Clock, Globe
+  Thermometer, CheckCircle2, Sparkles, Clock, Globe,
+  Lock, UserPlus
 } from 'lucide-react';
 import './LandingPage.css';
 import astronautHero from '../assets/astronaut_hero.jpg';
@@ -104,7 +105,10 @@ export default function LandingPage({
   currentState,
   totalRows = 4320,
   generatorInfo = null,
-  anomalies = []
+  anomalies = [],
+  currentUser = null,
+  onOpenAuth = () => {},
+  onLogout = () => {}
 }) {
   const [utcTime, setUtcTime] = useState('');
   const [activeSubsystem, setActiveSubsystem] = useState('eps');
@@ -271,14 +275,83 @@ export default function LandingPage({
             </div>
           </div>
 
-          <button
-            className="landing-enter-btn-top"
-            onClick={() => onEnter('realtime')}
-            title="Launch Full Cockpit Telemetry Operations"
-          >
-            <span>LAUNCH COCKPIT</span>
-            <ArrowRight size={14} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {currentUser ? (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                backgroundColor: currentUser.role === 'admin' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(56, 189, 248, 0.12)',
+                border: `1px solid ${currentUser.role === 'admin' ? 'rgba(239, 68, 68, 0.35)' : 'rgba(56, 189, 248, 0.3)'}`,
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.75rem',
+                color: currentUser.role === 'admin' ? '#f87171' : '#38bdf8'
+              }}>
+                <span>{currentUser.username.toUpperCase()} ({currentUser.role === 'admin' ? 'ADMIN • ALL ACCESS' : 'OPERATOR'})</span>
+                {currentUser.role === 'admin' && (
+                  <button
+                    onClick={() => onOpenAuth('new_user')}
+                    title="Admin: Manage Users and Decide Permissions"
+                    style={{
+                      background: 'rgba(239, 68, 68, 0.25)',
+                      border: '1px solid rgba(239, 68, 68, 0.45)',
+                      borderRadius: '4px',
+                      color: '#fca5a5',
+                      padding: '2px 6px',
+                      cursor: 'pointer',
+                      fontSize: '0.6875rem',
+                      fontWeight: '600'
+                    }}
+                  >
+                    + USERS / PERMISSIONS
+                  </button>
+                )}
+                <button
+                  onClick={onLogout}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#94a3b8',
+                    cursor: 'pointer',
+                    fontSize: '0.6875rem',
+                    textDecoration: 'underline'
+                  }}
+                >
+                  LOGOUT
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button
+                  className="landing-stat-chip"
+                  onClick={() => onOpenAuth('login')}
+                  style={{ cursor: 'pointer', borderColor: 'rgba(56, 189, 248, 0.4)', color: '#38bdf8', padding: '6px 12px' }}
+                >
+                  <Lock size={12} color="#38bdf8" />
+                  <strong>LOG IN / SIGN IN</strong>
+                </button>
+                <button
+                  className="landing-stat-chip"
+                  onClick={() => onOpenAuth('new_user')}
+                  style={{ cursor: 'pointer', borderColor: 'rgba(148, 163, 184, 0.3)', color: '#94a3b8', padding: '6px 12px' }}
+                >
+                  <UserPlus size={12} color="#94a3b8" />
+                  <strong>NEW USER</strong>
+                </button>
+              </div>
+            )}
+
+            <button
+              className="landing-enter-btn-top"
+              onClick={() => onEnter('realtime')}
+              title="Launch Full Cockpit Telemetry Operations"
+            >
+              <span>LAUNCH COCKPIT</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
         </header>
 
         {/* Hero Section */}

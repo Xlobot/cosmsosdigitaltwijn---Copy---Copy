@@ -16,6 +16,7 @@ from .config import (
     DATA_STATUS,
     DEFAULT_PREDICTION_HORIZON_MINUTES
 )
+from cosmos_security import get_service_headers
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -35,9 +36,9 @@ class DigitalTwinAdapter:
         self._status = "UNKNOWN"
 
     async def _get_client(self):
-        """Lazy initialization of HTTP client."""
+        """Lazy initialization of HTTP client with inter-service authentication headers."""
         if self.client is None:
-            self.client = httpx.AsyncClient(timeout=self.timeout)
+            self.client = httpx.AsyncClient(timeout=self.timeout, headers=get_service_headers())
         return self.client
 
     async def close(self):

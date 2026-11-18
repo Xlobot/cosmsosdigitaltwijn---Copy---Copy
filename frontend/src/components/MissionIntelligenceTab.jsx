@@ -5,8 +5,11 @@ import {
   Check, X, ShieldAlert, Send, FileText, CheckCircle2,
   ChevronRight, GitFork, Sliders, Play, Layers, Sparkles
 } from 'lucide-react';
+import { getStoredUser } from '../auth';
 
 export default function MissionIntelligenceTab({ currentRowIndex, currentState }) {
+  const currentUser = getStoredUser();
+  const canDecide = Boolean(currentUser && ['operator', 'admin'].includes(currentUser.role));
   // Sub-view mode inside Mission Intelligence: 'decisions', 'scenarios', 'unified'
   const [subView, setSubView] = useState('decisions');
 
@@ -43,22 +46,33 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
   const [customThermalSlew, setCustomThermalSlew] = useState(30);
   const [showSandboxControls, setShowSandboxControls] = useState(false);
 
-  // Helper to fetch through backend proxy first, fallback to direct port 8001
+  // Robust fetcher through Digital Twin backend proxy (/api/mi/...) with auth & error interpretation
   const fetchWithFallback = async (endpoint, options = {}) => {
     try {
       const res = await fetch(`/api/mi/${endpoint}`, options);
-      if (res.ok) return await res.json();
-    } catch (_) {
-      // Fallback
-    }
+      if (res.ok) {
+        return await res.json();
+      }
 
-    const host = typeof window !== 'undefined' ? (window.location.hostname || '127.0.0.1') : '127.0.0.1';
-    const directRes = await fetch(`http://${host}:8001/api/${endpoint}`, options);
-    if (!directRes.ok) {
-      const errData = await directRes.json().catch(() => ({}));
-      throw new Error(errData.detail || `Request failed (${directRes.status})`);
+      let detail = '';
+      try {
+        const errData = await res.json();
+        detail = errData.detail || errData.message || '';
+      } catch (_) {}
+
+      if (res.status === 401) {
+        throw new Error(detail || 'Authentication required: Please log in or sign in with flight operator credentials.');
+      }
+      if (res.status === 403) {
+        throw new Error(detail || 'Access restricted: Your operator account lacks permission for Mission Intelligence operations.');
+      }
+      if (res.status === 502 || res.status === 503) {
+        throw new Error(detail || 'Mission Intelligence service is unreachable on port 8001. Please ensure run_all.py is running.');
+      }
+      throw new Error(detail || `Request returned status ${res.status}`);
+    } catch (err) {
+      throw err;
     }
-    return await directRes.json();
   };
 
   // Run Scenario Forking Simulation via Digital Twin Backend
@@ -221,14 +235,14 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
         body: JSON.stringify({
           recommendation_id: recId,
           decision: decisionType,
-          reasoning: `[${actName}] ${finalReasoning}`,
-          operator: 'FLIGHT_CONTROLLER'
+          reasoning: `[${actName}] ${finalReasoning}`
         })
       });
 
+      const opName = currentUser?.username || 'Operator';
       setFeedbackBanner({
         type: decisionType,
-        message: `✓ Action "${actName}" recorded as ${decisionType.toUpperCase()} by FLIGHT_CONTROLLER.`
+        message: `✓ Action "${actName}" recorded as ${decisionType.toUpperCase()} by ${opName}.`
       });
 
       await fetchHistory();
@@ -366,13 +380,28 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
       {error ? (
         <div className="glass-panel" style={{ padding: '24px', textAlign: 'center', border: '1px solid var(--status-critical-border)' }}>
           <ShieldAlert size={28} color="#ef4444" style={{ margin: '0 auto 8px' }} />
-          <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#fca5a5' }}>Mission Intelligence Service Disconnected</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px', maxWidth: '500px', margin: '4px auto 14px' }}>
-            {error}. Ensure the Mission Intelligence server is running on port 8001 (`python run_mi_server.py`).
+          <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#fca5a5' }}>
+            {error.toLowerCase().includes('auth') || error.toLowerCase().includes('permission') || error.toLowerCase().includes('restricted')
+              ? 'Operator Authentication Required'
+              : 'Mission Intelligence Link Notice'}
           </div>
-          <button onClick={() => { fetchAssessment(); runScenarioSimulation(); }} className="btn-control">
-            <RefreshCw size={13} /> Retry Connection
-          </button>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px', maxWidth: '520px', margin: '4px auto 14px' }}>
+            {error}
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
+            {(error.toLowerCase().includes('auth') || error.toLowerCase().includes('permission') || error.toLowerCase().includes('restricted')) ? (
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('cosmos:auth-expired'))}
+                className="btn-control"
+                style={{ borderColor: '#38bdf8', color: '#38bdf8' }}
+              >
+                <Sparkles size={13} color="#38bdf8" /> Log In / Sign In
+              </button>
+            ) : null}
+            <button onClick={() => { fetchAssessment(); runScenarioSimulation(); }} className="btn-control">
+              <RefreshCw size={13} /> Retry Connection
+            </button>
+          </div>
         </div>
       ) : loading && !assessment ? (
         <div className="glass-panel" style={{ padding: '36px', textAlign: 'center' }}>
@@ -883,7 +912,7 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
                           Active Logged Decision: {activeDecisionRecord.decision}
                         </span>
                         <span style={{ fontSize: '0.6875rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
-                          {new Date(activeDecisionRecord.timestamp).toLocaleTimeString()} &bull; FLIGHT_CONTROLLER
+                          {new Date(activeDecisionRecord.timestamp).toLocaleTimeString()} &bull; {activeDecisionRecord.operator || currentUser?.username || 'Operator'}
                         </span>
                       </div>
                       {activeDecisionRecord.reasoning && (
@@ -990,7 +1019,8 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
                             boxShadow: activeDecisionRecord?.decision === 'accepted' ? '0 0 10px rgba(16, 185, 129, 0.4)' : 'none'
                           }}
                           onClick={() => handleDecision(currentAction, 'accepted', 'Approved by flight controller for immediate execution')}
-                          disabled={submittingDecision}
+                          disabled={!canDecide || submittingDecision}
+                          title={!canDecide ? "Requires operator or admin role" : "Accept this recommended action"}
                         >
                           <Check size={14} />
                           {activeDecisionRecord?.decision === 'accepted' ? 'Accept Action (Active)' : 'Accept Action'}
@@ -1008,7 +1038,8 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
                             gap: '6px'
                           }}
                           onClick={() => handleDecision(currentAction, 'deferred', 'Deferred for continuous telemetry analysis')}
-                          disabled={submittingDecision}
+                          disabled={!canDecide || submittingDecision}
+                          title={!canDecide ? "Requires operator or admin role" : "Defer this recommended action"}
                         >
                           <Clock size={13} />
                           {activeDecisionRecord?.decision === 'deferred' ? 'Defer Action (Active)' : 'Defer Action'}
@@ -1026,7 +1057,8 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
                             gap: '6px'
                           }}
                           onClick={() => handleDecision(currentAction, 'rejected', 'Rejected by flight controller: alternative action preferred')}
-                          disabled={submittingDecision}
+                          disabled={!canDecide || submittingDecision}
+                          title={!canDecide ? "Requires operator or admin role" : "Reject this recommended action"}
                         >
                           <X size={14} />
                           {activeDecisionRecord?.decision === 'rejected' ? 'Reject Action (Active)' : 'Reject Action'}
@@ -1159,8 +1191,8 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
                                       setSelectedActionIndex(i);
                                       handleDecision(act, 'accepted', 'Approved directly from candidate action ranking');
                                     }}
-                                    title="Accept this candidate action"
-                                    disabled={submittingDecision}
+                                    title={!canDecide ? "Requires operator or admin role" : "Accept this candidate action"}
+                                    disabled={!canDecide || submittingDecision}
                                   >
                                     <Check size={12} />
                                   </button>
@@ -1178,8 +1210,8 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
                                       setSelectedActionIndex(i);
                                       handleDecision(act, 'deferred', 'Deferred directly from candidate action ranking');
                                     }}
-                                    title="Defer this candidate action"
-                                    disabled={submittingDecision}
+                                    title={!canDecide ? "Requires operator or admin role" : "Defer this candidate action"}
+                                    disabled={!canDecide || submittingDecision}
                                   >
                                     <Clock size={12} />
                                   </button>
@@ -1197,8 +1229,8 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
                                       setSelectedActionIndex(i);
                                       handleDecision(act, 'rejected', 'Rejected directly from candidate action ranking');
                                     }}
-                                    title="Reject this candidate action"
-                                    disabled={submittingDecision}
+                                    title={!canDecide ? "Requires operator or admin role" : "Reject this candidate action"}
+                                    disabled={!canDecide || submittingDecision}
                                   >
                                     <X size={12} />
                                   </button>
@@ -1234,7 +1266,7 @@ export default function MissionIntelligenceTab({ currentRowIndex, currentState }
                       const isRej = entry.decision === 'rejected';
                       const isDef = entry.decision === 'deferred';
                       const decisionReasoning = entry.decision_reasoning || entry.reasoning || entry.recommendation?.justification || 'Standard mission operation';
-                      const operatorName = entry.decision_operator || entry.operator || 'FLIGHT_CONTROLLER';
+                      const operatorName = entry.decision_operator || entry.operator || 'Operator';
                       const displayTime = entry.decision_timestamp || entry.timestamp;
 
                       return (

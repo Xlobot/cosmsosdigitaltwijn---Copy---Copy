@@ -286,8 +286,8 @@ class RecommendationEngine:
             return 0.5
 
         # Use scenario evaluation confidence if available
-        ai_recommendation = scenario_evaluation.get("ai_recommendation", {})
-        confidence = ai_recommendation.get("utility_score", 0.5)
+        ai_recommendation = scenario_evaluation.get("ai_recommendation") or {}
+        confidence = ai_recommendation.get("utility_score", 0.5) if isinstance(ai_recommendation, dict) else 0.5
 
         # Normalize to 0-1
         normalized_confidence = min(1.0, max(0.0, confidence / 100.0))

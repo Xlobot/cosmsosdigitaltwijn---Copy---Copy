@@ -18,12 +18,25 @@ Usage in your project:
     client.stop()
 """
 
+import os
+import sys
 import json
 import time
 import threading
 import urllib.request
 import urllib.error
 from typing import Callable, Optional, List, Dict, Any
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.abspath(os.path.join(HERE, ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+try:
+    from cosmos_security import get_service_headers
+except ImportError:
+    def get_service_headers():
+        return {}
 
 
 class TelemetryClient:
@@ -48,7 +61,8 @@ class TelemetryClient:
         """Checks if the telemetry generator service is online."""
         req_url = f"{self.url}/health"
         try:
-            with urllib.request.urlopen(req_url, timeout=2.0) as resp:
+            req = urllib.request.Request(req_url, headers=get_service_headers())
+            with urllib.request.urlopen(req, timeout=2.0) as resp:
                 data = json.loads(resp.read().decode())
                 self.is_connected = (data.get("status") == "ok")
                 self.last_error = None
@@ -61,14 +75,16 @@ class TelemetryClient:
     def get_latest(self) -> Dict[str, Any]:
         """Fetches the single most recent satellite telemetry frame."""
         req_url = f"{self.url}/latest"
-        with urllib.request.urlopen(req_url, timeout=2.0) as resp:
+        req = urllib.request.Request(req_url, headers=get_service_headers())
+        with urllib.request.urlopen(req, timeout=2.0) as resp:
             return json.loads(resp.read().decode())
 
     def get_rows(self, since: Optional[int] = None, limit: int = 100) -> List[Dict[str, Any]]:
         """Fetches a batch of incremental telemetry rows starting from a cursor index."""
         target_since = self.cursor if since is None else since
         req_url = f"{self.url}/rows?since={target_since}&limit={limit}"
-        with urllib.request.urlopen(req_url, timeout=3.0) as resp:
+        req = urllib.request.Request(req_url, headers=get_service_headers())
+        with urllib.request.urlopen(req, timeout=3.0) as resp:
             rows = json.loads(resp.read().decode())
             if isinstance(rows, list):
                 return rows

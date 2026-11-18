@@ -10,6 +10,8 @@ import ExperimentTab from './components/ExperimentTab';
 import MissionIntelligenceTab from './components/MissionIntelligenceTab';
 import LandingPage from './components/LandingPage';
 import ErrorBoundary from './components/ErrorBoundary';
+import LoginModal from './components/LoginModal';
+import { ensureAuthenticated, getStoredUser, clearStoredAuth } from './auth';
 
 export default function App() {
   const [viewMode, setViewMode] = useState('landing'); // 'landing' (entry landing page) or 'cockpit' (flight operations)
@@ -27,6 +29,38 @@ export default function App() {
   const [timeline, setTimeline] = useState([]);
   const [anomalies, setAnomalies] = useState([]);
   const [orbitPoints, setOrbitPoints] = useState([]);
+
+  const [currentUser, setCurrentUser] = useState(getStoredUser());
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [loginModalTab, setLoginModalTab] = useState('login');
+
+  const openLoginModal = (tab = 'login') => {
+    setLoginModalTab(tab);
+    setIsLoginModalOpen(true);
+  };
+
+  // Authenticate user session with 15-min JWT token
+  useEffect(() => {
+    ensureAuthenticated()
+      .then((user) => {
+        if (user) setCurrentUser(user);
+      })
+      .catch(() => {});
+
+    const onAuthChanged = (e) => {
+      setCurrentUser(e.detail.isAuthenticated ? e.detail.user : null);
+    };
+    const onAuthExpired = () => {
+      openLoginModal('login');
+    };
+
+    window.addEventListener('cosmos:auth-changed', onAuthChanged);
+    window.addEventListener('cosmos:auth-expired', onAuthExpired);
+    return () => {
+      window.removeEventListener('cosmos:auth-changed', onAuthChanged);
+      window.removeEventListener('cosmos:auth-expired', onAuthExpired);
+    };
+  }, []);
 
   const playIntervalRef = useRef(null);
 
@@ -51,11 +85,11 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // 1. Preload Full Dataset & Anomalies Registry on startup
+  // 1. Preload Full Dataset & Anomalies Registry on startup and when user session changes
   useEffect(() => {
     // Load Anomalies
     fetch('/api/anomalies')
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         if (Array.isArray(data)) setAnomalies(data);
       })
@@ -63,7 +97,7 @@ export default function App() {
 
     // Load initial 1-orbit track points
     fetch('/api/timeline?start=0&count=95&step=1')
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         if (Array.isArray(data)) setOrbitPoints(data);
       })
@@ -71,7 +105,7 @@ export default function App() {
 
     // Load initial state
     fetch('/api/state?index=0')
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data && typeof data === 'object' && !Array.isArray(data) && data.timestamp) {
           setCurrentState(data);
@@ -81,7 +115,7 @@ export default function App() {
 
     // Preload all dataset rows for instantaneous client replay
     fetch('/api/dataset/all')
-      .then((res) => res.json())
+      .then((res) => (res.ok ? res.json() : []))
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           datasetCacheRef.current = data;
@@ -93,7 +127,7 @@ export default function App() {
         }
       })
       .catch((err) => console.error('Dataset preload error:', err));
-  }, []);
+  }, [currentUser]);
 
   // Update current state and timeline when rowIndex changes (instant from cache or network fallback)
   useEffect(() => {
@@ -110,17 +144,25 @@ export default function App() {
     } else {
       // Network fallback
       fetch(`/api/state?index=${rowIndex}`)
-        .then((res) => res.json())
-        .then((data) => setCurrentState(data))
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data && typeof data === 'object' && !Array.isArray(data) && data.timestamp) {
+            setCurrentState(data);
+          }
+        })
         .catch((err) => console.error('Error fetching state:', err));
 
       const startIdx = Math.max(0, rowIndex - 60);
       fetch(`/api/timeline?start=${startIdx}&count=90&step=1`)
-        .then((res) => res.json())
-        .then((data) => setTimeline(data))
+        .then((res) => (res.ok ? res.json() : []))
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setTimeline(data);
+          }
+        })
         .catch((err) => console.error('Error fetching timeline:', err));
     }
-  }, [rowIndex]);
+  }, [rowIndex, currentUser]);
 
   // 60 FPS Smooth Playback loop
   useEffect(() => {
@@ -193,16 +235,27 @@ export default function App() {
   // Landing Page Entry Screen
   if (viewMode === 'landing') {
     return (
-      <LandingPage
-        onEnter={(targetTab) => {
-          if (targetTab) setActiveTab(targetTab);
-          setViewMode('cockpit');
-        }}
-        currentState={currentState}
-        totalRows={totalRows}
-        generatorInfo={generatorInfo}
-        anomalies={anomalies}
-      />
+      <>
+        <LandingPage
+          onEnter={(targetTab) => {
+            if (targetTab) setActiveTab(targetTab);
+            setViewMode('cockpit');
+          }}
+          currentState={currentState}
+          totalRows={totalRows}
+          generatorInfo={generatorInfo}
+          anomalies={anomalies}
+          currentUser={currentUser}
+          onOpenAuth={openLoginModal}
+          onLogout={clearStoredAuth}
+        />
+        <LoginModal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+          onLoginSuccess={(u) => setCurrentUser(u)}
+          initialTab={loginModalTab}
+        />
+      </>
     );
   }
 
@@ -289,6 +342,113 @@ export default function App() {
           <span className={`status-pill pill-${riskLevel.toLowerCase()}`}>
             {riskLevel}
           </span>
+
+          {/* Operator Authentication Status & RBAC Controls */}
+          {currentUser ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '3px 8px',
+                borderRadius: '4px',
+                backgroundColor: currentUser.role === 'admin' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(56, 189, 248, 0.1)',
+                border: `1px solid ${currentUser.role === 'admin' ? 'rgba(239, 68, 68, 0.35)' : 'rgba(56, 189, 248, 0.3)'}`,
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.6875rem',
+                color: currentUser.role === 'admin' ? '#f87171' : '#38bdf8'
+              }}>
+                <span style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  backgroundColor: currentUser.role === 'admin' ? '#ef4444' : '#38bdf8'
+                }} />
+                <span>{currentUser.username.toUpperCase()} ({currentUser.role === 'admin' ? 'ADMIN • ALL ACCESS' : 'OPERATOR'})</span>
+                <button
+                  onClick={clearStoredAuth}
+                  title="Log out operator session"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#94a3b8',
+                    cursor: 'pointer',
+                    padding: '0 2px',
+                    marginLeft: '4px',
+                    fontSize: '0.625rem',
+                    textDecoration: 'underline'
+                  }}
+                >
+                  LOGOUT
+                </button>
+              </div>
+
+              {currentUser.role === 'admin' && (
+                <button
+                  onClick={() => openLoginModal('new_user')}
+                  title="Admin: Manage Users and Decide Permissions"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                    border: '1px solid rgba(239, 68, 68, 0.4)',
+                    color: '#fca5a5',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.6875rem',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  + USERS / PERMISSIONS
+                </button>
+              )}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <button
+                onClick={() => openLoginModal('login')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '4px 10px',
+                  borderRadius: '4px',
+                  backgroundColor: 'rgba(2, 132, 199, 0.25)',
+                  border: '1px solid #0284c7',
+                  color: '#38bdf8',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.6875rem',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
+              >
+                LOG IN / SIGN IN
+              </button>
+
+              <button
+                onClick={() => openLoginModal('new_user')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '4px 10px',
+                  borderRadius: '4px',
+                  backgroundColor: 'rgba(148, 163, 184, 0.1)',
+                  border: '1px solid rgba(148, 163, 184, 0.3)',
+                  color: '#94a3b8',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.6875rem',
+                  fontWeight: '500',
+                  cursor: 'pointer'
+                }}
+              >
+                NEW USER
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
@@ -449,6 +609,14 @@ export default function App() {
           )}
         </ErrorBoundary>
       </main>
+
+      {/* Operator Authentication Modal */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onLoginSuccess={(u) => setCurrentUser(u)}
+        initialTab={loginModalTab}
+      />
 
     </div>
   );

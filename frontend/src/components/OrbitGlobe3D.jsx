@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { Eye, RotateCcw, Sun, Moon, Orbit } from 'lucide-react';
 
 export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = false }) {
@@ -34,104 +33,6 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
   useEffect(() => {
     viewModeRef.current = viewMode;
   }, [viewMode]);
-
-  // High-Resolution Procedural Photorealistic Earth Texture
-  const createPhotorealisticEarthTexture = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 2048;
-    canvas.height = 1024;
-    const ctx = canvas.getContext('2d');
-
-    // 1. Deep Oceanic Gradient Base
-    const oceanGrad = ctx.createLinearGradient(0, 0, 0, 1024);
-    oceanGrad.addColorStop(0, '#020b1e');
-    oceanGrad.addColorStop(0.3, '#041738');
-    oceanGrad.addColorStop(0.5, '#0a2e5c');
-    oceanGrad.addColorStop(0.7, '#041738');
-    oceanGrad.addColorStop(1, '#020b1e');
-    ctx.fillStyle = oceanGrad;
-    ctx.fillRect(0, 0, 2048, 1024);
-
-    // 2. Realistic Continent Contours & Mountain Relief
-    ctx.fillStyle = '#1e3a29'; // Forest green / terrain
-
-    // Draw North America
-    ctx.beginPath();
-    ctx.moveTo(250, 180);
-    ctx.bezierCurveTo(320, 150, 480, 160, 520, 260);
-    ctx.bezierCurveTo(550, 340, 480, 420, 420, 480);
-    ctx.bezierCurveTo(380, 520, 320, 480, 280, 400);
-    ctx.bezierCurveTo(220, 340, 200, 240, 250, 180);
-    ctx.fill();
-
-    // Draw South America
-    ctx.beginPath();
-    ctx.moveTo(460, 490);
-    ctx.bezierCurveTo(560, 520, 620, 600, 580, 720);
-    ctx.bezierCurveTo(540, 840, 460, 920, 440, 880);
-    ctx.bezierCurveTo(420, 780, 400, 640, 430, 540);
-    ctx.fill();
-
-    // Draw Eurasia
-    ctx.fillStyle = '#2d4a34';
-    ctx.beginPath();
-    ctx.moveTo(850, 180);
-    ctx.bezierCurveTo(1050, 120, 1450, 140, 1650, 220);
-    ctx.bezierCurveTo(1750, 320, 1650, 480, 1450, 450);
-    ctx.bezierCurveTo(1250, 420, 1100, 480, 950, 420);
-    ctx.bezierCurveTo(820, 380, 780, 260, 850, 180);
-    ctx.fill();
-
-    // Draw Africa
-    ctx.fillStyle = '#4a442d'; // Savanna/Desert tone
-    ctx.beginPath();
-    ctx.moveTo(920, 400);
-    ctx.bezierCurveTo(1080, 390, 1150, 480, 1120, 620);
-    ctx.bezierCurveTo(1080, 760, 980, 820, 940, 780);
-    ctx.bezierCurveTo(900, 680, 860, 520, 920, 400);
-    ctx.fill();
-
-    // Draw Australia
-    ctx.fillStyle = '#5c4326';
-    ctx.beginPath();
-    ctx.arc(1550, 680, 110, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Draw Antarctica
-    ctx.fillStyle = '#d0e5f5';
-    ctx.fillRect(0, 920, 2048, 104);
-
-    // 3. Coordinate Navigation Grid
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.12)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x <= 2048; x += 128) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, 1024);
-      ctx.stroke();
-    }
-    for (let y = 0; y <= 1024; y += 64) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(2048, y);
-      ctx.stroke();
-    }
-
-    // Equator Line Highlight
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(0, 512);
-    ctx.lineTo(2048, 512);
-    ctx.stroke();
-
-    return new THREE.CanvasTexture(canvas);
-  };
-
-  // High-Resolution Procedural Atmospheric Cloud Texture
-
-
-
 
   // Build Detailed Satellite Mesh
   const buildSatelliteMesh = () => {
@@ -259,68 +160,102 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
     scene.add(sunLight);
     sunLightRef.current = sunLight;
 
-    // Earth Group (GLB model)
+    // Earth Group
     const earthGroup = new THREE.Group();
     const earthRadius = 5.0;
 
     scene.add(earthGroup);
     earthGroupRef.current = earthGroup;
 
-    // Load earth_globe.glb
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.load(
-      '/earth_globe.glb',
-      (gltf) => {
-        if (!aliveRef.current) return;
-        const model = gltf.scene;
+    const texLoader = new THREE.TextureLoader();
 
-        // Scale model to earthRadius (diameter = earthRadius * 2)
-        const box = new THREE.Box3().setFromObject(model);
-        const size = new THREE.Vector3();
-        box.getSize(size);
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scaleFactor = (earthRadius * 2) / maxDim;
-        model.scale.setScalar(scaleFactor);
+    // 1. Photorealistic NASA Blue Marble Earth Surface & Specular Oceans
+    const earthMap = texLoader.load('/textures/earth/earth_atmos_2048.jpg');
+    earthMap.colorSpace = THREE.SRGBColorSpace;
+    const earthSpecular = texLoader.load('/textures/earth/earth_specular_2048.jpg');
+    const earthNormal = texLoader.load('/textures/earth/earth_normal_2048.jpg');
 
-        // Re-compute bounding box AFTER scale to get the true world-space centre,
-        // then offset model.position so the geometry sits exactly at group origin,
-        // co-located with the cloud and atmosphere spheres.
-        const scaledBox = new THREE.Box3().setFromObject(model);
-        const centre = new THREE.Vector3();
-        scaledBox.getCenter(centre);
-        model.position.sub(centre);
+    const earthGeo = new THREE.SphereGeometry(earthRadius, 64, 64);
+    const earthMat = new THREE.MeshPhongMaterial({
+      map: earthMap,
+      specularMap: earthSpecular,
+      specular: new THREE.Color(0x334d66),
+      shininess: 28,
+      normalMap: earthNormal,
+      normalScale: new THREE.Vector2(0.85, 0.85),
+    });
+    const earthMesh = new THREE.Mesh(earthGeo, earthMat);
+    earthGroup.add(earthMesh);
 
+    // 2. High-Resolution Atmospheric Cloud Layer (Drifts independently)
+    const cloudGeo = new THREE.SphereGeometry(earthRadius * 1.015, 64, 64);
+    const cloudTex = texLoader.load('/textures/earth/earth_clouds_1024.png');
+    const cloudMat = new THREE.MeshStandardMaterial({
+      map: cloudTex,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
+    earthGroup.add(cloudMesh);
+    cloudMeshRef.current = cloudMesh;
 
+    // 3. Inner Atmospheric Rim Scatter (Daylight edge haze)
+    const innerAtmoGeo = new THREE.SphereGeometry(earthRadius * 1.019, 64, 64);
+    const innerAtmoMat = new THREE.ShaderMaterial({
+      vertexShader: `
+        varying vec3 vNormal;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vNormal;
+        void main() {
+          float intensity = 1.05 - dot(vNormal, vec3(0.0, 0.0, 1.0));
+          vec3 atmosphere = vec3(0.25, 0.65, 1.0) * pow(intensity, 2.8);
+          gl_FragColor = vec4(atmosphere, intensity * 0.7);
+        }
+      `,
+      blending: THREE.AdditiveBlending,
+      side: THREE.FrontSide,
+      transparent: true,
+      depthWrite: false,
+    });
+    const innerAtmoMesh = new THREE.Mesh(innerAtmoGeo, innerAtmoMat);
+    earthGroup.add(innerAtmoMesh);
 
-        earthGroup.add(model);
-
-        // Cloud Layer (sits just above the model surface)
-        const cloudGeo = new THREE.SphereGeometry(earthRadius * 1.015, 64, 64);
-        const cloudTex = createCloudTexture();
-        const cloudMat = new THREE.MeshStandardMaterial({
-          map: cloudTex,
-          transparent: true,
-          opacity: 0.4,
-          blending: THREE.AdditiveBlending,
-        });
-        const cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
-        earthGroup.add(cloudMesh);
-        cloudMeshRef.current = cloudMesh;
-
-        // Atmosphere Outer Glow
-        const atmoGeo = new THREE.SphereGeometry(earthRadius * 1.05, 64, 64);
-        const atmoMat = new THREE.MeshBasicMaterial({
-          color: 0x00c8ff,
-          transparent: true,
-          opacity: 0.18,
-          side: THREE.BackSide,
-        });
-        const atmoMesh = new THREE.Mesh(atmoGeo, atmoMat);
-        earthGroup.add(atmoMesh);
-      },
-      undefined,
-      (err) => console.error('Failed to load earth_globe.glb:', err)
-    );
+    // 4. Outer Atmospheric Rayleigh Corona (Limb halo glow)
+    const atmoGeo = new THREE.SphereGeometry(earthRadius * 1.12, 64, 64);
+    const atmoMat = new THREE.ShaderMaterial({
+      vertexShader: `
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        void main() {
+          vec3 viewDir = normalize(-vPosition);
+          float intensity = pow(0.68 - dot(vNormal, viewDir), 2.2);
+          vec3 atmosphere = vec3(0.18, 0.62, 1.0) * intensity;
+          gl_FragColor = vec4(atmosphere, intensity * 0.8);
+        }
+      `,
+      blending: THREE.AdditiveBlending,
+      side: THREE.BackSide,
+      transparent: true,
+      depthWrite: false,
+    });
+    const atmoMesh = new THREE.Mesh(atmoGeo, atmoMat);
+    earthGroup.add(atmoMesh);
 
     // Starfield Background
     const starsGeo = new THREE.BufferGeometry();
@@ -390,12 +325,12 @@ export default function OrbitGlobe3D({ telemetry, orbitPoints = [], isPlaying = 
       animFrameId.current = requestAnimationFrame(animate);
 
       try {
-        // Rotate Earth and Clouds
+        // Rotate Earth and Clouds (realistic orbital drift)
         if (earthGroupRef.current) {
-          earthGroupRef.current.rotation.y += 0.0006;
+          earthGroupRef.current.rotation.y += 0.00015;
         }
         if (cloudMeshRef.current) {
-          cloudMeshRef.current.rotation.y += 0.0009;
+          cloudMeshRef.current.rotation.y += 0.00022; // Atmospheric winds drift over surface
         }
 
         // Smoothly interpolate satellite position & attitude (SLERP / LERP)
