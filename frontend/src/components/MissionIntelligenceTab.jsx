@@ -9,7 +9,13 @@ import { getStoredUser } from '../auth';
 
 export default function MissionIntelligenceTab({ currentRowIndex, currentState }) {
   const currentUser = getStoredUser();
-  const canDecide = Boolean(currentUser && ['operator', 'admin'].includes(currentUser.role));
+  const canDecide = Boolean(
+    currentUser && (
+      currentUser.role === 'admin' ||
+      currentUser.permissions?.includes('*') ||
+      (currentUser.role === 'operator' && currentUser.permissions?.includes('mission_intel:decide'))
+    )
+  );
   // Sub-view mode inside Mission Intelligence: 'decisions', 'scenarios', 'unified'
   const [subView, setSubView] = useState('decisions');
 

@@ -39,6 +39,28 @@ export default function App() {
     setIsLoginModalOpen(true);
   };
 
+  const hasPermission = (perm) => {
+    if (!currentUser) return false;
+    if (currentUser.role === 'admin') return true;
+    const perms = Array.isArray(currentUser.permissions) ? currentUser.permissions : [];
+    if (perms.includes('*')) return true;
+    return perms.includes(perm);
+  };
+
+  // Automatically fall back to telemetry replay if active tab is restricted for the current user
+  useEffect(() => {
+    if (currentUser) {
+      if (activeTab === 'predict' && !hasPermission('predict:run')) {
+        setActiveTab('realtime');
+      } else if (
+        (activeTab === 'mission_intel' || activeTab === 'fork') &&
+        !(hasPermission('mission_intel:assess') || hasPermission('mission_intel:decide') || hasPermission('scenarios:fork'))
+      ) {
+        setActiveTab('realtime');
+      }
+    }
+  }, [currentUser, activeTab]);
+
   // Authenticate user session with 15-min JWT token
   useEffect(() => {
     ensureAuthenticated()
@@ -289,24 +311,32 @@ export default function App() {
           >
             <Home size={14} color="#38bdf8" /> Mission Portal
           </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'realtime' ? 'active' : ''}`}
-            onClick={() => setActiveTab('realtime')}
-          >
-            <Activity size={14} /> Telemetry Replay
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'predict' ? 'active' : ''}`}
-            onClick={() => setActiveTab('predict')}
-          >
-            <TrendingUp size={14} /> Propagation & Forecast
-          </button>
-          <button
-            className={`nav-tab-btn ${activeTab === 'mission_intel' || activeTab === 'fork' ? 'active' : ''}`}
-            onClick={() => setActiveTab('mission_intel')}
-          >
-            <Brain size={14} /> Mission Intelligence &amp; Scenarios
-          </button>
+          {(!currentUser || hasPermission('telemetry:read')) && (
+            <button
+              className={`nav-tab-btn ${activeTab === 'realtime' ? 'active' : ''}`}
+              onClick={() => setActiveTab('realtime')}
+            >
+              <Activity size={14} /> Telemetry Replay
+            </button>
+          )}
+
+          {hasPermission('predict:run') && (
+            <button
+              className={`nav-tab-btn ${activeTab === 'predict' ? 'active' : ''}`}
+              onClick={() => setActiveTab('predict')}
+            >
+              <TrendingUp size={14} /> Propagation & Forecast
+            </button>
+          )}
+
+          {(hasPermission('mission_intel:assess') || hasPermission('mission_intel:decide') || hasPermission('scenarios:fork')) && (
+            <button
+              className={`nav-tab-btn ${activeTab === 'mission_intel' || activeTab === 'fork' ? 'active' : ''}`}
+              onClick={() => setActiveTab('mission_intel')}
+            >
+              <Brain size={14} /> Mission Intelligence &amp; Scenarios
+            </button>
+          )}
         </div>
 
         {/* Live Satellite Info & Risk Status */}

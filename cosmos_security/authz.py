@@ -148,6 +148,19 @@ def log_admin_action(user: str, route: str, action: str):
     )
 
 
+# Granular permission requirements for sensitive operations
+ROUTE_PERMISSION_MAP: Dict[str, str] = {
+    "/api/predict": "predict:run",
+    "/api/fork": "scenarios:fork",
+    "/api/generator/inject-anomaly": "anomalies:inject",
+    "/api/mi/assess": "mission_intel:assess",
+    "/api/mi/trigger-assessment": "mission_intel:assess",
+    "/api/assess": "mission_intel:assess",
+    "/api/mi/decision": "mission_intel:decide",
+    "/api/decision": "mission_intel:decide",
+}
+
+
 # ---------------------------------------------------------------------------
 # 4. DEPENDENCY: require_role(min_role)
 # ---------------------------------------------------------------------------
@@ -155,10 +168,12 @@ def require_role(min_role: str):
     """
     Enforces that the caller has an authenticated JWT with at least `min_role` in the role hierarchy.
     Viewer < Analyst < Operator < Admin.
+    Also verifies granular permissions if configured for the user account.
     Rejects:
     - Missing, invalid, expired, or tampered tokens -> 401 Unauthorized
     - Missing or unknown role claim -> 403 Forbidden
     - Insufficient role level in hierarchy -> 403 Forbidden
+    - Missing granular operational permission -> 403 Forbidden
     """
     if min_role not in ROLE_HIERARCHY:
         raise ValueError(f"Unknown required role: '{min_role}'")
@@ -191,6 +206,20 @@ def require_role(min_role: str):
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"Forbidden: Insufficient privileges. Required role: '{min_role}', your role: '{role}'."
             )
+
+        # Granular permission check: verify account holds required operational capability
+        req_perm = ROUTE_PERMISSION_MAP.get(request.url.path)
+        if req_perm and role != ROLE_ADMIN:
+            user_perms = token_claims.get("permissions") or user.get("permissions") or []
+            if "*" not in user_perms and req_perm not in user_perms:
+                log_access_denied(
+                    username, role, request.url.path,
+                    f"Account lacks required operational permission '{req_perm}' (configured permissions: {user_perms})"
+                )
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=f"Forbidden: Account '{username}' lacks operational permission '{req_perm}'. Contact an Administrator."
+                )
 
         if role == ROLE_ADMIN:
             log_admin_action(username, request.url.path, request.method)
@@ -420,6 +449,20 @@ def require_role_or_service_key(min_role: str):
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail=f"Forbidden: Insufficient privileges. Required role: '{min_role}', your role: '{role}'."
                 )
+
+            # Granular permission check: verify account holds required operational capability
+            req_perm = ROUTE_PERMISSION_MAP.get(request.url.path)
+            if req_perm and role != ROLE_ADMIN:
+                user_perms = payload.get("permissions") or user.get("permissions") or []
+                if "*" not in user_perms and req_perm not in user_perms:
+                    log_access_denied(
+                        username, role, request.url.path,
+                        f"Account lacks required operational permission '{req_perm}' (configured permissions: {user_perms})"
+                    )
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail=f"Forbidden: Account '{username}' lacks operational permission '{req_perm}'. Contact an Administrator."
+                    )
 
             if role == ROLE_ADMIN:
                 log_admin_action(username, request.url.path, request.method)

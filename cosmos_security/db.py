@@ -30,7 +30,8 @@ DEFAULT_OPERATOR_PERMS = [
     "telemetry:read",
     "predict:run",
     "scenarios:fork",
-    "mission_intel:assess"
+    "mission_intel:assess",
+    "mission_intel:decide"
 ]
 
 
