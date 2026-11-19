@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Workspace artifacts & temp extracts
+cosmsosdigitaltwijn---Copy---Copy-helee/
+.DS_Store
+Thumbs.db
+
+# Secrets & SQLite Database
+.env
+.env.local
+*.db
+*.sqlite
+*.sqlite3
+
+# Runtime decision logs and traces
+*.log
+mission_intelligence_decision_log.json

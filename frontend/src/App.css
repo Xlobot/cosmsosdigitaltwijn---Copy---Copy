@@ -1,0 +1,15 @@
+/* COSMOS Aerospace Console - Component-Specific Layout Overrides */
+
+.telemetry-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.telemetry-row:last-child {
+  border-bottom: none;
+}
